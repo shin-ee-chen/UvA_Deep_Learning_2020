@@ -36,28 +36,15 @@ class MLP(object):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        self.n_inputs = n_inputs
-        self.n_hiddens = n_hidden
-        self.n_classes = n_classes
-
-        # self.linears = []
-        # self.activations = []
-        # input_size = n_inputs
-        # for i, hidden_size in self.n_hiddens:
-        #   self.linears.append(LinearModule(input_size, hidden_size))
-        #   self.activations.append(ELUModule())
-        #   input_size = hidden_size
-        
-        # self.linears.append(LinearModule(input_size, self.n_classes))
 
         self.layers = []
         input_size = n_inputs
-        for hidden_size in self.n_hiddens:
+        for hidden_size in n_hidden:
           self.layers.append(LinearModule(input_size, hidden_size))
           self.layers.append(ELUModule())
           input_size = hidden_size
         
-        self.layers.append(LinearModule(input_size, self.n_classes))
+        self.layers.append(LinearModule(input_size, n_classes))
         ########################
         # END OF YOUR CODE    #
         #######################
