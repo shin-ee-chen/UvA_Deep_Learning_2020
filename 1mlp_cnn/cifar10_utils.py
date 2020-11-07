@@ -240,4 +240,8 @@ def get_cifar10(data_dir=CIFAR10_FOLDER, one_hot=True, validation_size=0):
 if __name__ == '__main__':
   cifar10 = get_cifar10('cifar10/cifar-10-batches-py')
   data, labels = cifar10['train'].next_batch(batch_size= 64)
-  print(data.shape, labels.shape)
+  print(labels[0])
+  data, labels = cifar10['train'].next_batch(batch_size= 64)
+  x, y = cifar10["test"].images, cifar10["test"].labels
+  x = x.reshape([x.shape[0], -1])
+  print(x.shape)

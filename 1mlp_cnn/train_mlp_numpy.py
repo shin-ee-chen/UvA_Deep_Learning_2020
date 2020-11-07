@@ -13,10 +13,13 @@ from mlp_numpy import MLP
 from modules import CrossEntropyModule, SoftMaxModule
 import cifar10_utils
 
+import matplotlib.pyplot as plt
+
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '100'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 1400
+# MAX_STEPS_DEFAULT = 1400
+MAX_STEPS_DEFAULT = 400
 BATCH_SIZE_DEFAULT = 200
 EVAL_FREQ_DEFAULT = 100
 
@@ -57,6 +60,19 @@ def accuracy(predictions, targets):
 
     return accuracy
 
+def loss_curve(losses, img_path):
+    """
+    plot loss curve and save the image to path provided in img_path
+
+    """
+    # epoches = np.linspace(1, len(logp_trains)
+    # num = len(logp_trains), dtype = 'int')
+    plt.plot(losses, label='loss curve')
+    # plt.xlabel('Epoches')
+    # plt.ylabel('The conditional log-probability')
+    # plt.legend(loc="best", frameon=False)
+    plt.show()
+
 
 def train():
     """
@@ -83,12 +99,15 @@ def train():
     #######################
     # Load data
     cifar10 = cifar10_utils.get_cifar10(FLAGS.data_dir)
-    train_x, train_y = cifar10['train'].next_batch(batch_size= FLAGS.batch_size)
+    cifar10_train, cifar10_test = cifar10['train'], cifar10['test']
+    train_x, train_y = cifar10_train.next_batch(batch_size= FLAGS.batch_size)
     train_x = train_x.reshape([train_x.shape[0], -1])
     print("train_x shape is {}, train_y.shape is {}".format(train_x.shape, train_y.shape))
 
     # Define network
     mlp = MLP(train_x.shape[1], dnn_hidden_units, train_y.shape[1])
+    losses = []
+
     # Training
     for step in range(FLAGS.max_steps):
         # forward prop
@@ -97,6 +116,7 @@ def train():
         out = softmax.forward(out)
         cross_entro = CrossEntropyModule()
         loss = cross_entro.forward(out, train_y)
+        losses.append(loss)
 
         #backward prob
         dout = cross_entro.backward(out, train_y)
@@ -105,21 +125,28 @@ def train():
 
         # update params
         n_linear_layers = len(dnn_hidden_units) + 1
-        # print("n_l ",n_linear_layers)
-        # print(len(mlp.layers))
         for n in range(n_linear_layers):
             linear = mlp.layers[2 * n]
             linear.params["weight"] -= FLAGS.learning_rate * linear.grads["weight"]
             linear.params["bias"] -=  FLAGS.learning_rate * linear.grads["bias"]
         
-        # Evaluation
+        # Prediction
         if step % FLAGS.eval_freq == 0:
-            print(loss)
-    # Prediction
-    # print("Prediction is ")
-    # mlp.forward(test)
-    # softmax = SoftMaxModule()
-    # out = softmax.forward(out)
+            acc = []
+            n_epoches = cifar10_test._epochs_completed
+            while len(acc) * FLAGS.batch_size < cifar10_test.num_examples:
+                test_x, test_y = cifar10_test.next_batch(batch_size= FLAGS.batch_size)
+                test_x = test_x.reshape([test_x.shape[0], -1])
+                out = mlp.forward(test_x)
+                softmax = SoftMaxModule()
+                out = softmax.forward(out)
+                acc.append(accuracy(out, test_y))
+            print("Step {}, accuracy is {}".format(step, np.mean(acc)))
+        
+        train_x, train_y = cifar10_train.next_batch(batch_size = FLAGS.batch_size)
+        train_x = train_x.reshape([train_x.shape[0], -1])
+        
+    loss_curve(losses, "")
     ########################
     # END OF YOUR CODE    #
     #######################
@@ -163,4 +190,4 @@ if __name__ == '__main__':
                         help='Directory for storing input data')
     FLAGS, unparsed = parser.parse_known_args()
 
-    main()
+    main()  
