@@ -45,6 +45,7 @@ class MLP(object):
           input_size = hidden_size
         
         self.layers.append(LinearModule(input_size, n_classes))
+        self.layers.append(SoftMaxModule())
         ########################
         # END OF YOUR CODE    #
         #######################
