@@ -18,8 +18,8 @@ import matplotlib.pyplot as plt
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '100'
 LEARNING_RATE_DEFAULT = 1e-3
-# MAX_STEPS_DEFAULT = 1400
-MAX_STEPS_DEFAULT = 400
+MAX_STEPS_DEFAULT = 1400
+# MAX_STEPS_DEFAULT = 400
 BATCH_SIZE_DEFAULT = 200
 EVAL_FREQ_DEFAULT = 100
 
@@ -60,18 +60,24 @@ def accuracy(predictions, targets):
 
     return accuracy
 
-def loss_curve(losses, img_path):
+def loss_curve(train_loss, test_loss, img_path):
     """
     plot loss curve and save the image to path provided in img_path
 
     """
-    # epoches = np.linspace(1, len(logp_trains)
-    # num = len(logp_trains), dtype = 'int')
-    plt.plot(losses, label='loss curve')
-    # plt.xlabel('Epoches')
-    # plt.ylabel('The conditional log-probability')
-    # plt.legend(loc="best", frameon=False)
-    plt.show()
+    steps = np.arange(0, len(train_loss))
+    steps *= FLAGS.eval_freq
+    plt.plot(steps, train_loss, label = "train loss")
+    plt.plot(steps, test_loss, label = "test loss")
+    plt.xlabel("Steps")
+    plt.ylabel('Loss')
+    plt.title(os.path.basename(img_path))
+    
+    dir_name = os.path.dirname(img_path)
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name) 
+    plt.legend(loc="best", frameon=False)
+    plt.savefig(img_path)
 
 
 def train():
@@ -106,7 +112,8 @@ def train():
 
     # Define network
     mlp = MLP(train_x.shape[1], dnn_hidden_units, train_y.shape[1])
-    losses = []
+    test_loss = []
+    train_loss = []
 
     # Training
     for step in range(FLAGS.max_steps):
@@ -116,7 +123,6 @@ def train():
         out = softmax.forward(out)
         cross_entro = CrossEntropyModule()
         loss = cross_entro.forward(out, train_y)
-        losses.append(loss)
 
         #backward prob
         dout = cross_entro.backward(out, train_y)
@@ -131,22 +137,32 @@ def train():
             linear.params["bias"] -=  FLAGS.learning_rate * linear.grads["bias"]
         
         # Prediction
+
         if step % FLAGS.eval_freq == 0:
+            train_loss.append(loss)
             acc = []
+            losses = []
             n_epoches = cifar10_test._epochs_completed
             while len(acc) * FLAGS.batch_size < cifar10_test.num_examples:
                 test_x, test_y = cifar10_test.next_batch(batch_size= FLAGS.batch_size)
                 test_x = test_x.reshape([test_x.shape[0], -1])
-                out = mlp.forward(test_x)
-                softmax = SoftMaxModule()
-                out = softmax.forward(out)
-                acc.append(accuracy(out, test_y))
+                test_out = mlp.forward(test_x)
+                test_softmax = SoftMaxModule()
+                test_out = test_softmax.forward(test_out)
+                acc.append(accuracy(test_out, test_y))
+                test_cross_entro = CrossEntropyModule()
+                losses.append(test_cross_entro.forward(test_out, test_y))
+            
             print("Step {}, accuracy is {}".format(step, np.mean(acc)))
-        
+            test_loss.append(np.mean(losses))
+
         train_x, train_y = cifar10_train.next_batch(batch_size = FLAGS.batch_size)
         train_x = train_x.reshape([train_x.shape[0], -1])
-        
-    loss_curve(losses, "")
+    
+    # Plot loss curves
+    img_path = os.path.join("loss_curves", \
+        "loss_curve_with_max_step_{}".format(FLAGS.max_steps))
+    loss_curve(train_loss, test_loss, img_path)
     ########################
     # END OF YOUR CODE    #
     #######################
@@ -191,3 +207,4 @@ if __name__ == '__main__':
     FLAGS, unparsed = parser.parse_known_args()
 
     main()  
+    
