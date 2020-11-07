@@ -13,7 +13,7 @@ from mlp_numpy import MLP
 from modules import CrossEntropyModule
 import cifar10_utils
 
-import matplotlib.pyplot as plt
+import plot_utils
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '100'
@@ -59,25 +59,6 @@ def accuracy(predictions, targets):
 
     return accuracy
 
-def loss_curve(train_loss, test_loss, img_path):
-    """
-    plot loss curve and save the image to path provided in img_path
-
-    """
-    steps = np.arange(1, len(train_loss) + 1)
-    steps *= FLAGS.eval_freq
-    plt.plot(steps, train_loss, label = "train loss")
-    plt.plot(steps, test_loss, label = "test loss")
-    plt.xlabel("Steps")
-    plt.ylabel('Loss')
-    plt.title(os.path.basename(img_path))
-    
-    dir_name = os.path.dirname(img_path)
-    if not os.path.exists(dir_name):
-        os.makedirs(dir_name) 
-    plt.legend(loc="best", frameon=False)
-    plt.savefig(img_path)
-
 
 def train():
     """
@@ -113,12 +94,13 @@ def train():
     mlp = MLP(train_x.shape[1], dnn_hidden_units, train_y.shape[1])
     test_loss = []
     train_loss = []
+    accs = []
+    cross_entro = CrossEntropyModule()
 
     # Training
     for step in range(FLAGS.max_steps):
         # forward prop
         out = mlp.forward(train_x)
-        cross_entro = CrossEntropyModule()
         loss = cross_entro.forward(out, train_y)
 
         #backward prob
@@ -136,28 +118,31 @@ def train():
 
         if step % FLAGS.eval_freq == (FLAGS.eval_freq - 1):
             train_loss.append(loss)
-            acc = []
-            losses = []
-            n_epoches = cifar10_test._epochs_completed
-            while len(acc) * FLAGS.batch_size < cifar10_test.num_examples:
+            acc = 0
+            t_loss = 0
+            n_batch = 0
+            while n_batch * FLAGS.batch_size < cifar10_test.num_examples:
                 test_x, test_y = cifar10_test.next_batch(batch_size= FLAGS.batch_size)
                 test_x = test_x.reshape([test_x.shape[0], -1])
                 
                 test_out = mlp.forward(test_x)
-                acc.append(accuracy(test_out, test_y))
-                test_cross_entro = CrossEntropyModule()
-                losses.append(test_cross_entro.forward(test_out, test_y))
+                acc += accuracy(test_out, test_y)
+                t_loss += cross_entro.forward(test_out, test_y)
+                n_batch += 1
             
-            print("Step {}, accuracy is {}".format(step + 1, np.mean(acc)))
-            test_loss.append(np.mean(losses))
+            print("Step {}, accuracy is {}".format(step + 1, acc / n_batch))
+            test_loss.append(t_loss / n_batch)
+            accs.append(acc / n_batch)
 
         train_x, train_y = cifar10_train.next_batch(batch_size = FLAGS.batch_size)
         train_x = train_x.reshape([train_x.shape[0], -1])
     
-    # Plot loss curves
-    img_path = os.path.join("loss_curves", \
-        "loss_curve_with_max_step_{}".format(FLAGS.max_steps))
-    loss_curve(train_loss, test_loss, img_path)
+    # Plot loss and accuracy curves
+    loss_img_path = os.path.join("results", "numpy_loss_curve")
+    plot_utils.plot_loss_curve(train_loss, test_loss, loss_img_path, FLAGS.eval_freq)
+
+    acc_img_path = os.path.join("results", "numpy_acc_curve")
+    plot_utils.plot_acc_curve(accs, acc_img_path, FLAGS.eval_freq)
     ########################
     # END OF YOUR CODE    #
     #######################
@@ -201,5 +186,6 @@ if __name__ == '__main__':
                         help='Directory for storing input data')
     FLAGS, unparsed = parser.parse_known_args()
 
-    main()  
+    main()
+   
     
