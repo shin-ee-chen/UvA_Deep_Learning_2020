@@ -37,7 +37,17 @@ class MLP(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        raise NotImplementedError
+        super(MLP, self).__init__()
+        self.layers = nn.ModuleList()
+        input_size = n_inputs
+        for hidden_size in n_hidden:
+          self.layers.append(nn.Linear(input_size, hidden_size))
+          self.layers.append(nn.ELU())
+          input_size = hidden_size
+        
+        self.layers.append(nn.Linear(input_size, n_classes))
+        self.layers.append(nn.Softmax(dim = 1))
+
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -59,7 +69,9 @@ class MLP(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        raise NotImplementedError
+        out = x
+        for layer in self.layers:
+          out = layer.forward(out)
         ########################
         # END OF YOUR CODE    #
         #######################

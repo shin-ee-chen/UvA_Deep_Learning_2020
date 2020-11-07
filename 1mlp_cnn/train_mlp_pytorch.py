@@ -14,11 +14,15 @@ import cifar10_utils
 
 import torch
 import torch.nn as nn
+import torch.optim as optim
+
+import plot_utils
 
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '100'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 1400
+MAX_STEPS_DEFAULT = 400
+# MAX_STEPS_DEFAULT = 1400
 BATCH_SIZE_DEFAULT = 200
 EVAL_FREQ_DEFAULT = 100
 NEG_SLOPE_DEFAULT = 0.02
@@ -50,7 +54,12 @@ def accuracy(predictions, targets):
     ########################
     # PUT YOUR CODE HERE  #
     #######################
-    raise NotImplementedError
+    _, predicted = torch.max(predictions, 1)
+    _, labels = torch.max(targets, 1)
+    
+    correct = (predicted == labels).sum().item()
+    accuracy = correct / labels.size(0)
+    print(predictions[1:10])
     ########################
     # END OF YOUR CODE    #
     #######################
@@ -79,12 +88,57 @@ def train():
     else:
         dnn_hidden_units = []
     
-    neg_slope = FLAGS.neg_slope
+    # neg_slope = FLAGS.neg_slope
     
     ########################
     # PUT YOUR CODE HERE  #
     #######################
-    raise NotImplementedError
+    # load data
+    cifar10 = cifar10_utils.get_cifar10(FLAGS.data_dir)
+    train_x, train_y = cifar10['train'].next_batch(batch_size= FLAGS.batch_size)
+    train_x = torch.from_numpy(train_x.reshape([train_x.shape[0], -1]))
+    train_y = torch.from_numpy(train_y)
+    print("train_x shape is {}, train_y.shape is {}".format(train_x.shape, train_y.shape))
+
+    # Define network
+    mlp = MLP(train_x.shape[1], dnn_hidden_units, train_y.shape[1])
+    train_loss = []
+    test_loss = []
+    accs = []
+
+    optimizer = optim.SGD(mlp.parameters(), lr = FLAGS.learning_rate)
+    cross_entro = nn.CrossEntropyLoss()
+
+    for step in range(FLAGS.max_steps):
+        # forward prop
+        optimizer.zero_grad()
+        out = mlp.forward(train_x)
+        loss = cross_entro(out, torch.max(train_y, 1)[1])
+        loss.backward()
+        optimizer.step()
+
+        if step % FLAGS.eval_freq == (FLAGS.eval_freq - 1):
+            train_loss.append(loss.item())
+            
+            test_x, test_y = cifar10["test"].images, cifar10["test"].labels
+            test_x =  torch.from_numpy(test_x.reshape([test_x.shape[0], -1]))
+            test_y = torch.from_numpy(test_y)
+
+            test_out = mlp.forward(test_x)
+            test_loss.append(cross_entro(test_out, torch.max(test_y, 1)[1]).item())
+            acc = accuracy(test_out, test_y)
+            accs.append(acc)
+            print("Step {}, accuracy is {}".format(step + 1, acc))
+            print("Train Loss {}, test loss {}".format(loss.item(), train_loss[-1]) )
+        train_x, train_y = cifar10['train'].next_batch(batch_size= FLAGS.batch_size)
+        train_x = torch.from_numpy(train_x.reshape([train_x.shape[0], -1]))
+        train_y = torch.from_numpy(train_y)
+
+    loss_img_path = os.path.join("results", "pytorch_loss_curve")
+    plot_utils.plot_loss_curve(train_loss, test_loss, loss_img_path, FLAGS.eval_freq)
+
+    acc_img_path = os.path.join("results", "pytorch_acc_curve")
+    plot_utils.plot_acc_curve(accs, acc_img_path, FLAGS.eval_freq)
     ########################
     # END OF YOUR CODE    #
     #######################
