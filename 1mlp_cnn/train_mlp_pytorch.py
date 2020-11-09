@@ -18,12 +18,15 @@ import torch.optim as optim
 
 import plot_utils
 
+
+
 # Default constants
-DNN_HIDDEN_UNITS_DEFAULT = '100'
+DNN_HIDDEN_UNITS_DEFAULT = '100, 100, 100, 100, 100'
 LEARNING_RATE_DEFAULT = 1e-3
-MAX_STEPS_DEFAULT = 400
+MAX_STEPS_DEFAULT = 1100
 # MAX_STEPS_DEFAULT = 1400
-BATCH_SIZE_DEFAULT = 200
+# BATCH_SIZE_DEFAULT = 200
+BATCH_SIZE_DEFAULT = 512
 EVAL_FREQ_DEFAULT = 100
 NEG_SLOPE_DEFAULT = 0.02
 
@@ -59,7 +62,6 @@ def accuracy(predictions, targets):
     
     correct = (predicted == labels).sum().item()
     accuracy = correct / labels.size(0)
-    print(predictions[1:10])
     ########################
     # END OF YOUR CODE    #
     #######################
@@ -106,7 +108,11 @@ def train():
     test_loss = []
     accs = []
 
-    optimizer = optim.SGD(mlp.parameters(), lr = FLAGS.learning_rate)
+    if FLAGS.optimizer.lower() == 'adam':
+        optimizer = optim.Adam(mlp.parameters(), lr = FLAGS.learning_rate, weight_decay = FLAGS.weight_decay)
+    else:
+        optimizer = optim.SGD(mlp.parameters(), lr = FLAGS.learning_rate, weight_decay = FLAGS.weight_decay)
+    
     cross_entro = nn.CrossEntropyLoss()
 
     for step in range(FLAGS.max_steps):
@@ -129,7 +135,7 @@ def train():
             acc = accuracy(test_out, test_y)
             accs.append(acc)
             print("Step {}, accuracy is {}".format(step + 1, acc))
-            print("Train Loss {}, test loss {}".format(loss.item(), train_loss[-1]) )
+            # print("Train Loss {}, test loss {}".format(loss.item(), train_loss[-1]) )
         train_x, train_y = cifar10['train'].next_batch(batch_size= FLAGS.batch_size)
         train_x = torch.from_numpy(train_x.reshape([train_x.shape[0], -1]))
         train_y = torch.from_numpy(train_y)
@@ -181,6 +187,11 @@ if __name__ == '__main__':
                         help='Frequency of evaluation on the test set')
     parser.add_argument('--data_dir', type=str, default=DATA_DIR_DEFAULT,
                         help='Directory for storing input data')
+    parser.add_argument('--weight_decay', type=str, default=0.001,
+                        help='weight decay for optimizer')
+    parser.add_argument('--optimizer', type=str, default="Adam",
+                        help='Type of optimizer')
+
     FLAGS, unparsed = parser.parse_known_args()
     
     main()

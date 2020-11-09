@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import os
 import numpy as np
+import sys
 
 def plot_loss_curve(train_loss, test_loss, img_path, eval_freq):
     """
@@ -42,9 +43,14 @@ def plot_acc_curve(accs, img_path, eval_freq):
     plt.close()
 
 if __name__ == '__main__':
-    train_loss = [0.02, 0.001, 0.0001]
-    test_loss = [0.032, 0.0031, 0.00031]
+    # train_loss = [0.02, 0.001, 0.0001]
+    # test_loss = [0.032, 0.0031, 0.00031]
 
-    plot_loss_curve(train_loss, test_loss, "loss_curves/hello", 100) 
-    accs = [0.23, 0.25, 0.3]
-    plot_acc_curve(accs, "loss_curves/hello1", 100)
+    # plot_loss_curve(train_loss, test_loss, "loss_curves/hello", 100) 
+    # accs = [0.23, 0.25, 0.3]
+    # plot_acc_curve(accs, "loss_curves/hello1", 100)
+
+    print("Python version")
+    print (sys.version)
+    print("Version info.")
+    print (sys.version_info)
