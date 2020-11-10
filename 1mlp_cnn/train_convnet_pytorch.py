@@ -49,7 +49,11 @@ def accuracy(predictions, targets):
     ########################
     # PUT YOUR CODE HERE  #
     #######################
-    raise NotImplementedError
+    _, predicted = torch.max(predictions, 1)
+    _, labels = torch.max(targets, 1)
+    
+    correct = (predicted == labels).sum().item()
+    accuracy = correct / labels.size(0)
     ########################
     # END OF YOUR CODE    #
     #######################

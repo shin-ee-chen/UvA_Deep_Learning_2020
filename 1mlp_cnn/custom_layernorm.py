@@ -39,7 +39,10 @@ class CustomLayerNormAutograd(nn.Module):
         # PUT YOUR CODE HERE  #
         #######################
         
-        raise NotImplementedError
+        self.n_neurons = n_neurons
+        self.eps = eps
+        self.gamma = nn.Parameter(torch.ones(n_neurons))
+        self.beta = nn.Parameter(torch.zeros(n_neurons))
         
         ########################
         # END OF YOUR CODE    #
@@ -63,9 +66,14 @@ class CustomLayerNormAutograd(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
+        assert input.shape == (input.shape[0], self.n_neurons)
 
-        raise NotImplementedError
-
+        mean = torch.mean(input, dim=1, keepdim=True)
+        var = torch.var(input, dim = 1, unbiased=False, keepdim=True)
+        sqrt_var = torch.sqrt(var + self.eps)
+        norm_X = (input - mean) / sqrt_var
+        out = self.gamma * norm_X + self.beta
+        
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -119,8 +127,13 @@ class CustomLayerNormManualFunction(torch.autograd.Function):
         # PUT YOUR CODE HERE  #
         #######################
         
-        raise NotImplementedError
-
+        mean = torch.mean(input, dim=1, keepdim=True)
+        var = torch.var(input, dim = 1, unbiased=False, keepdim=True)
+        inv_sqrt_var = 1 / torch.sqrt(var + eps)
+        norm_X = (input - mean) * inv_sqrt_var
+        out = gamma * norm_X + beta
+        ctx.eps = eps
+        ctx.save_for_backward(inv_sqrt_var, gamma, norm_X)
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -147,8 +160,19 @@ class CustomLayerNormManualFunction(torch.autograd.Function):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
+        inv_sqrt_var, gamma, norm_X = ctx.saved_variables
+        # eps = ctx.eps
+        grad_input = grad_gamma = grad_beta = None
 
-        raise NotImplementedError
+        if ctx.needs_input_grad[0]:
+            inv_m = 1 / input.shape[0]
+            grad_input = grad_output * gamma * inv_sqrt_var * \
+              (1 - inv_m) * (1 - inv_m * inv_sqrt_var ** 2 * norm_X)
+        if ctx.needs_input_grad[1]:
+            grad_gamma = torch.sum(grad_output * norm_X, dim = 0)
+        if ctx.needs_input_grad[2]:
+            grad_beta = torch.sum(grad_output, dim = 0)
+
         
         ########################
         # END OF YOUR CODE    #
