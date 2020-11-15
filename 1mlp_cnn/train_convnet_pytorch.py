@@ -96,13 +96,13 @@ def train():
     accs = []
 
 
-    optimizer = optim.Adam(mlp.parameters(), lr = FLAGS.learning_rate)
+    optimizer = optim.Adam(vgg.parameters(), lr = FLAGS.learning_rate)
     cross_entro = nn.CrossEntropyLoss()
 
     for step in range(FLAGS.max_steps):
         # forward prop
         optimizer.zero_grad()
-        out = vgg.forward(train_x)
+        out = vgg.forward(train_x).to(device)
         loss = cross_entro(out, torch.max(train_y, 1)[1])
         loss.backward()
         optimizer.step()
