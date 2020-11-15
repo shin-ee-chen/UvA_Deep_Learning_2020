@@ -31,7 +31,6 @@ DATA_DIR_DEFAULT = './cifar10/cifar-10-batches-py'
 
 FLAGS = None
 
-device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
 def accuracy(predictions, targets):
     """
@@ -82,7 +81,12 @@ def train():
     ########################
     # PUT YOUR CODE HERE  #
     #######################
+    device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
+    torch.backends.cudnn.determinstic = True
+    torch.backends.cudnn.benchmark = False
+
     # load data
+    torch.backends
     cifar10 = cifar10_utils.get_cifar10(FLAGS.data_dir)
     train_x, train_y = cifar10['train'].next_batch(batch_size= FLAGS.batch_size)
     train_x = torch.from_numpy(train_x).to(device)

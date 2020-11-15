@@ -45,56 +45,58 @@ class ConvNet(nn.Module):
           nn.Conv2d(64, 64, 3, 1, 1)
         )
 
-        self.PreAct_2_a = nn.Sequential(
+        self.PreAct_2 = nn.Sequential(
           nn.BatchNorm2d(128),
           nn.ReLU(),
           nn.Conv2d(128, 128, 3, 1, 1)
         )
 
-        self.PreAct_2_b = nn.Sequential(
-          nn.BatchNorm2d(128),
-          nn.ReLU(),
-          nn.Conv2d(128, 128, 3, 1, 1)
-        )
+        # self.PreAct_2_b = nn.Sequential(
+        #   nn.BatchNorm2d(128),
+        #   nn.ReLU(),
+        #   nn.Conv2d(128, 128, 3, 1, 1)
+        # )
 
-        self.PreAct_3_a = nn.Sequential(
+        self.PreAct_3 = nn.Sequential(
           nn.BatchNorm2d(256),
           nn.ReLU(),
           nn.Conv2d(256, 256, 3, 1, 1)
         )
 
-        self.PreAct_3_b = nn.Sequential(
-          nn.BatchNorm2d(256),
-          nn.ReLU(),
-          nn.Conv2d(256, 256, 3, 1, 1)
-        )
+        # self.PreAct_3_b = nn.Sequential(
+        #   nn.BatchNorm2d(256),
+        #   nn.ReLU(),
+        #   nn.Conv2d(256, 256, 3, 1, 1)
+        # )
 
-        self.PreAct_4_a = nn.Sequential(
+        self.PreAct_4 = nn.Sequential(
           nn.BatchNorm2d(512),
           nn.ReLU(),
           nn.Conv2d(512, 512, 3, 1, 1)
         )
 
-        self.PreAct_4_b = nn.Sequential(
+        # self.PreAct_4_b = nn.Sequential(
+        #   nn.BatchNorm2d(512),
+        #   nn.ReLU(),
+        #   nn.Conv2d(512, 512, 3, 1, 1)
+        # )
+
+        self.PreAct_5 = nn.Sequential(
           nn.BatchNorm2d(512),
           nn.ReLU(),
           nn.Conv2d(512, 512, 3, 1, 1)
         )
 
-        self.PreAct_5_a = nn.Sequential(
-          nn.BatchNorm2d(512),
-          nn.ReLU(),
-          nn.Conv2d(512, 512, 3, 1, 1)
-        )
-
-        self.PreAct_5_b = nn.Sequential(
-          nn.BatchNorm2d(512),
-          nn.ReLU(),
-          nn.Conv2d(512, 512, 3, 1, 1)
-        )
+        # self.PreAct_5_b = nn.Sequential(
+        #   nn.BatchNorm2d(512),
+        #   nn.ReLU(),
+        #   nn.Conv2d(512, 512, 3, 1, 1)
+        # )
 
         self.maxpool = nn.MaxPool2d(3, 2, 1)
+        
         self.linear = nn.Linear(512, n_classes)
+          
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -121,23 +123,24 @@ class ConvNet(nn.Module):
         z_1 = out_0 + self.PreAct_1(out_0)
         out_1 = self.maxpool(self.conv_1(z_1))
         
-        z_2_a = out_1 + self.PreAct_2_a(out_1)
-        z_2_b = z_2_a + self.PreAct_2_b(z_2_a)
+        z_2_a = out_1 + self.PreAct_2(out_1)
+        z_2_b = z_2_a + self.PreAct_2(z_2_a)
         out_2 = self.maxpool(self.conv_2(z_2_b))
 
-        z_3_a = out_2 + self.PreAct_3_a(out_2)
-        z_3_b = z_3_a + self.PreAct_3_b(z_3_a)
+        z_3_a = out_2 + self.PreAct_3(out_2)
+        z_3_b = z_3_a + self.PreAct_3(z_3_a)
         out_3 = self.maxpool(self.conv_3(z_3_b))
 
-        z_4_a = out_3 + self.PreAct_4_a(out_3)
-        z_4_b = z_4_a + self.PreAct_4_b(z_4_a)
+        z_4_a = out_3 + self.PreAct_4(out_3)
+        z_4_b = z_4_a + self.PreAct_4(z_4_a)
         out_4 = self.maxpool(z_4_b)
 
-        z_5_a = out_4 + self.PreAct_5_a(out_4)
-        z_5_b = z_5_a + self.PreAct_5_b(z_5_a)
+        z_5_a = out_4 + self.PreAct_5(out_4)
+        z_5_b = z_5_a + self.PreAct_5(z_5_a)
         out_5 = self.maxpool(z_5_b)
-
-        out_5 = out_5.view(-1, 512)
+        
+        out_5 = nn.ReLU(nn.BatchNorm2d(512))
+        # out_5 = out_5.view(-1, 512)
         out = self.linear(out_5)
 
         ########################

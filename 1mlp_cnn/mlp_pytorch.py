@@ -46,7 +46,7 @@ class MLP(nn.Module):
           input_size = hidden_size
         
         self.layers.append(nn.Linear(input_size, n_classes))
-        # self.layers.append(nn.Softmax(dim = 1))
+        # We don't need Softmax here because it is combined in nn.CrossEntropyLoss
 
         ########################
         # END OF YOUR CODE    #
