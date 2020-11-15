@@ -94,7 +94,8 @@ class ConvNet(nn.Module):
         # )
 
         self.maxpool = nn.MaxPool2d(3, 2, 1)
-        
+        self.batchNorm = nn.BatchNorm2d(512)
+        self.relu = nn.ReLU()
         self.linear = nn.Linear(512, n_classes)
           
         ########################
@@ -138,9 +139,10 @@ class ConvNet(nn.Module):
         z_5_a = out_4 + self.PreAct_5(out_4)
         z_5_b = z_5_a + self.PreAct_5(z_5_a)
         out_5 = self.maxpool(z_5_b)
-        
-        out_5 = nn.ReLU(nn.BatchNorm2d(512))
         # out_5 = out_5.view(-1, 512)
+       
+        out_5 = self.relu(self.batchNorm(out_5))
+        out_5 = out_5.view(-1, 512)
         out = self.linear(out_5)
 
         ########################
