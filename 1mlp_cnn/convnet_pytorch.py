@@ -137,7 +137,7 @@ class ConvNet(nn.Module):
         z_5_b = z_5_a + self.PreAct_5_b(z_5_a)
         out_5 = self.maxpool(z_5_b)
 
-        out_5 = out_5.view(-1, out_5.shape[1])
+        out_5 = out_5.view(-1, 512)
         out = self.linear(out_5)
 
         ########################

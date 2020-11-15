@@ -1,0 +1,19 @@
+WARNING: $PATH does not agree with $PATH_modshare counter. The following directories' usage counters were adjusted to match. Note that this may mean that module unloading may not work correctly.
+ /opt/slurm/bin /hpc/eb/compilerwrappers/linkers /sw/arch/Debian10/EB_production/2020/software/Miniconda3/4.7.12.1 /opt/slurm/sbin /hpc/eb/compilerwrappers/compilers
+learning_rate : 0.0001
+max_steps : 5000
+batch_size : 32
+eval_freq : 500
+data_dir : ./cifar10/cifar-10-batches-py
+train_x shape is torch.Size([32, 3, 32, 32]), train_y.shape is torch.Size([32, 10])
+Step 500, accuracy is 0.5082867412140575
+Step 1000, accuracy is 0.5676916932907349
+Step 1500, accuracy is 0.6523562300319489
+Step 2000, accuracy is 0.6739217252396166
+Step 2500, accuracy is 0.6976837060702875
+Step 3000, accuracy is 0.7087659744408946
+Step 3500, accuracy is 0.7377196485623003
+Step 4000, accuracy is 0.75
+Step 4500, accuracy is 0.7369209265175719
+Step 5000, accuracy is 0.7616813099041534
+Done

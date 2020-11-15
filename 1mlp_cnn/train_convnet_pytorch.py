@@ -110,15 +110,31 @@ def train():
         if step % FLAGS.eval_freq == (FLAGS.eval_freq - 1):
             train_loss.append(loss.item())
             
-            test_x, test_y = cifar10["test"].images, cifar10["test"].labels
-            test_x =  torch.from_numpy(test_x)
-            test_y = torch.from_numpy(test_y)
+            # test_x, test_y = cifar10["test"].images, cifar10["test"].labels
+            # test_x =  torch.from_numpy(test_x).to(device)
+            # test_y = torch.from_numpy(test_y).to(device)
 
-            test_out = vgg.forward(test_x)
-            test_loss.append(cross_entro(test_out, torch.max(test_y, 1)[1]).item())
-            acc = accuracy(test_out, test_y)
-            accs.append(acc)
-            print("Step {}, accuracy is {}".format(step + 1, acc))
+            acc = 0
+            t_loss = 0
+            n_batch = 0
+            while n_batch * FLAGS.batch_size < cifar10["test"].num_examples:
+                test_x, test_y = cifar10["test"].next_batch(batch_size= FLAGS.batch_size)
+                test_x = torch.from_numpy(test_x).to(device)
+                test_y = torch.from_numpy(test_y).to(device)
+
+                test_out = vgg.forward(test_x)
+                acc += accuracy(test_out, test_y)
+                t_loss += cross_entro(test_out, torch.max(test_y, 1)[1]).item()
+                n_batch += 1
+            
+            print("Step {}, accuracy is {}".format(step + 1, acc / n_batch))
+            test_loss.append(t_loss / n_batch)
+            accs.append(acc / n_batch)
+            # test_out = vgg.forward(test_x)
+            # test_loss.append(cross_entro(test_out, torch.max(test_y, 1)[1]).item())
+            # acc = accuracy(test_out, test_y)
+            # accs.append(acc)
+            # print("Step {}, accuracy is {}".format(step + 1, acc))
             # print("Train Loss {}, test loss {}".format(loss.item(), train_loss[-1]) )
         train_x, train_y = cifar10['train'].next_batch(batch_size= FLAGS.batch_size)
         train_x = torch.from_numpy(train_x).to(device)
