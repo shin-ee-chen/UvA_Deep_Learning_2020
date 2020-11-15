@@ -133,7 +133,7 @@ class CustomLayerNormManualFunction(torch.autograd.Function):
         norm_X = (input - mean) * inv_sqrt_var
         out = gamma * norm_X + beta
         ctx.eps = eps
-        ctx.save_for_backward(inv_sqrt_var, gamma, norm_X)
+        ctx.save_for_backward(gamma, norm_X, inv_sqrt_var)
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -160,14 +160,15 @@ class CustomLayerNormManualFunction(torch.autograd.Function):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        inv_sqrt_var, gamma, norm_X = ctx.saved_variables
+        gamma, norm_X, inv_sqrt_var = ctx.saved_variables
         # eps = ctx.eps
         grad_input = grad_gamma = grad_beta = None
 
         if ctx.needs_input_grad[0]:
-            inv_m = 1 / input.shape[0]
-            grad_input = grad_output * gamma * inv_sqrt_var * \
-              (1 - inv_m) * (1 - inv_m * inv_sqrt_var ** 2 * norm_X)
+            m = norm_X.shape[1]
+            grad_input = 1 / m * inv_sqrt_var * (m * grad_output * gamma \
+              - torch.sum(grad_output * gamma, dim = 1, keepdim=True) \
+              - norm_X * torch.sum(grad_output * gamma * norm_X, dim = 1, keepdim=True))
         if ctx.needs_input_grad[1]:
             grad_gamma = torch.sum(grad_output * norm_X, dim = 0)
         if ctx.needs_input_grad[2]:
@@ -210,8 +211,10 @@ class CustomLayerNormManualModule(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-
-        raise NotImplementedError
+        self.n_neurons = n_neurons
+        self.eps = eps
+        self.gamma = nn.Parameter(torch.ones(n_neurons))
+        self.beta = nn.Parameter(torch.zeros(n_neurons))
         
         ########################
         # END OF YOUR CODE    #
@@ -236,7 +239,9 @@ class CustomLayerNormManualModule(nn.Module):
         # PUT YOUR CODE HERE  #
         #######################
 
-        raise NotImplementedError
+        assert input.shape == (input.shape[0], self.n_neurons)
+        customer_layer_norm = CustomLayerNormManualFunction()
+        out = customer_layer_norm.apply(input, self.gamma, self.beta, self.eps)
         
         ########################
         # END OF YOUR CODE    #
