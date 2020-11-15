@@ -90,7 +90,7 @@ def train():
     print("train_x shape is {}, train_y.shape is {}".format(train_x.shape, train_y.shape))
 
     # Define network
-    vgg = ConvNet(train_x.shape[1], train_y.shape[1])
+    vgg = ConvNet(train_x.shape[1], train_y.shape[1]).to(device)
     train_loss = []
     test_loss = []
     accs = []
@@ -102,7 +102,7 @@ def train():
     for step in range(FLAGS.max_steps):
         # forward prop
         optimizer.zero_grad()
-        out = vgg.forward(train_x).to(device)
+        out = vgg.forward(train_x)
         loss = cross_entro(out, torch.max(train_y, 1)[1])
         loss.backward()
         optimizer.step()
