@@ -243,5 +243,5 @@ if __name__ == '__main__':
   print(labels[0])
   data, labels = cifar10['train'].next_batch(batch_size= 64)
   x, y = cifar10["test"].images, cifar10["test"].labels
-  x = x.reshape([x.shape[0], -1])
+  # x = x.reshape([x.shape[0], -1])
   print(x.shape)

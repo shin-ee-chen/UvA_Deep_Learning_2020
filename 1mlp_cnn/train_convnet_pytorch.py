@@ -15,6 +15,10 @@ import cifar10_utils
 import torch
 import torch.nn as nn
 
+import torch.optim as optim
+
+import plot_utils
+
 # Default constants
 LEARNING_RATE_DEFAULT = 1e-4
 BATCH_SIZE_DEFAULT = 32
@@ -27,6 +31,7 @@ DATA_DIR_DEFAULT = './cifar10/cifar-10-batches-py'
 
 FLAGS = None
 
+device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
 def accuracy(predictions, targets):
     """
@@ -77,7 +82,53 @@ def train():
     ########################
     # PUT YOUR CODE HERE  #
     #######################
-    raise NotImplementedError
+    # load data
+    cifar10 = cifar10_utils.get_cifar10(FLAGS.data_dir)
+    train_x, train_y = cifar10['train'].next_batch(batch_size= FLAGS.batch_size)
+    train_x = torch.from_numpy(train_x).to(device)
+    train_y = torch.from_numpy(train_y).to(device)
+    print("train_x shape is {}, train_y.shape is {}".format(train_x.shape, train_y.shape))
+
+    # Define network
+    vgg = ConvNet(train_x.shape[1], train_y.shape[1])
+    train_loss = []
+    test_loss = []
+    accs = []
+
+
+    optimizer = optim.Adam(mlp.parameters(), lr = FLAGS.learning_rate)
+    cross_entro = nn.CrossEntropyLoss()
+
+    for step in range(FLAGS.max_steps):
+        # forward prop
+        optimizer.zero_grad()
+        out = vgg.forward(train_x)
+        loss = cross_entro(out, torch.max(train_y, 1)[1])
+        loss.backward()
+        optimizer.step()
+
+        if step % FLAGS.eval_freq == (FLAGS.eval_freq - 1):
+            train_loss.append(loss.item())
+            
+            test_x, test_y = cifar10["test"].images, cifar10["test"].labels
+            test_x =  torch.from_numpy(test_x)
+            test_y = torch.from_numpy(test_y)
+
+            test_out = vgg.forward(test_x)
+            test_loss.append(cross_entro(test_out, torch.max(test_y, 1)[1]).item())
+            acc = accuracy(test_out, test_y)
+            accs.append(acc)
+            print("Step {}, accuracy is {}".format(step + 1, acc))
+            # print("Train Loss {}, test loss {}".format(loss.item(), train_loss[-1]) )
+        train_x, train_y = cifar10['train'].next_batch(batch_size= FLAGS.batch_size)
+        train_x = torch.from_numpy(train_x).to(device)
+        train_y = torch.from_numpy(train_y).to(device)
+
+    loss_img_path = os.path.join("results", "pytorch_cnn_loss_curve")
+    plot_utils.plot_loss_curve(train_loss, test_loss, loss_img_path, FLAGS.eval_freq)
+
+    acc_img_path = os.path.join("results", "pytorch_cnn_acc_curve")
+    plot_utils.plot_acc_curve(accs, acc_img_path, FLAGS.eval_freq)
     ########################
     # END OF YOUR CODE    #
     #######################
