@@ -216,3 +216,4 @@ class RandomCombinationsDataset(data.Dataset):
     def __getitem__(self, idx):
         seq = np.random.permutation(self.seq_length)
         return torch.FloatTensor(seq[:-1]), seq[-1]
+

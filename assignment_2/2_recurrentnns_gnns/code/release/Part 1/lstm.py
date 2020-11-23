@@ -8,7 +8,7 @@ from __future__ import division
 from __future__ import print_function
 
 import torch.nn as nn
-
+import torch
 
 class LSTM(nn.Module):
 
@@ -19,7 +19,38 @@ class LSTM(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        raise NotImplementedError
+
+        # initialize parameters
+        self.W_gx = nn.Parameter(torch.rand(hidden_dim, input_dim))
+        self.W_gh = nn.Parameter(torch.rand(hidden_dim, hidden_dim))
+        self.b_g = nn.Parameter(torch.zeros(hidden_dim, 1))
+
+        self.W_ix = nn.Parameter(torch.rand(hidden_dim, input_dim))
+        self.W_ih = nn.Parameter(torch.rand(hidden_dim, hidden_dim))
+        self.b_i = nn.Parameter(torch.zeros(hidden_dim, 1))
+
+        self.W_fx = nn.Parameter(torch.rand(hidden_dim, input_dim))
+        self.W_fh = nn.Parameter(torch.rand(hidden_dim, hidden_dim))
+        self.b_f = nn.Parameter(torch.zeros(hidden_dim, 1))
+
+        self.W_ox = nn.Parameter(torch.rand(hidden_dim, input_dim))
+        self.W_oh = nn.Parameter(torch.rand(hidden_dim, hidden_dim))
+        self.b_o = nn.Parameter(torch.zeros(hidden_dim, 1))
+
+        self.W_ph = nn.Parameter(torch.rand(num_classes, hidden_dim))
+        self.b_p = nn.Parameter(torch.zeros(num_classes, 1))
+        
+        self.h_init = nn.Parameter(torch.rand(hidden_dim, batch_size),requires_grad=False)
+        self.c_init = nn.Parameter(torch.rand(hidden_dim, batch_size),requires_grad=False)
+        # self.h_init = torch.zeros(hidden_dim, batch_size).to(device)
+        # self.c_init = torch.zeros(hidden_dim, batch_size).to(device)
+        self.device = device
+        self.seq_length = seq_length
+
+        self.tanh = nn.Tanh()
+        self.sigmoid = nn.Sigmoid()
+        
+        self.to(device)
         ########################
         # END OF YOUR CODE    #
         #######################
@@ -28,7 +59,24 @@ class LSTM(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        raise NotImplementedError
+        h_prev = self.h_init
+        c_prev = self.c_init
+
+        for t in range(self.seq_length):
+            g_t = self.tanh(self.W_gx @ x[:, t].t()  + self.W_gh @ h_prev + self.b_g)
+            i_t = self.sigmoid(self.W_ix @ x[:, t].t()  + self.W_ih @ h_prev + self.b_i)
+            f_t = self.sigmoid(self.W_fx @ x[:, t].t()  + self.W_fx @ h_prev + self.b_f)
+            o_t = self.sigmoid(self.W_ox @ x[:, t].t()  + self.W_ox @ h_prev + self.b_o)
+
+            c_t = g_t * i_t + c_prev * f_t
+            h_t = self.tanh(c_t) * o_t
+            h_prev = h_t
+            c_prev = c_t
+        
+        p_t = self.W_ph @ h_t + self.b_p
+
+        out = p_t.t()
+        return out
         ########################
         # END OF YOUR CODE    #
         #######################
