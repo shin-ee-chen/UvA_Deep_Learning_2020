@@ -64,7 +64,7 @@ def train(config):
     elif config.dataset == 'bss':
         print('Load bss dataset ...')
         # Initialize the dataset and data loader
-        config.num_classes = config.input_length
+        config.num_classes = 2
         config.input_dim = 3
         dataset = datasets.BaumSweetSequenceDataset(config.input_length)
         data_loader = DataLoader(dataset, config.batch_size, num_workers=1,
@@ -186,14 +186,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     # dataset
-    parser.add_argument('--dataset', type=str, default='randomcomb',
+    parser.add_argument('--dataset', type=str, default='bipalindrome',
                         choices=['randomcomb', 'bss', 'bipalindrome'],
                         help='Dataset to be trained on.')
     # Model params
-    parser.add_argument('--model_type', type=str, default='biLSTM',
+    # parser.add_argument('--model_type', type=str, default='biLSTM',
+    #                     choices=['LSTM', 'biLSTM', 'GRU', 'peepLSTM'],
+    #                     help='Model type: LSTM, biLSTM, GRU or peepLSTM')
+    parser.add_argument('--model_type', type=str, default='LSTM',
                         choices=['LSTM', 'biLSTM', 'GRU', 'peepLSTM'],
                         help='Model type: LSTM, biLSTM, GRU or peepLSTM')
-    parser.add_argument('--input_length', type=int, default=6,
+    parser.add_argument('--input_length', type=int, default=10,
                         help='Length of an input sequence')
     parser.add_argument('--input_dim', type=int, default=1,
                         help='Dimensionality of input sequence')
@@ -205,14 +208,16 @@ if __name__ == "__main__":
     # Training params
     parser.add_argument('--batch_size', type=int, default=256,
                         help='Number of examples to process in a batch')
-    parser.add_argument('--learning_rate', type=float, default=0.001,
+    parser.add_argument('--learning_rate', type=float, default=0.0001,
                         help='Learning rate')
     parser.add_argument('--train_steps', type=int, default=3000,
                         help='Number of training steps')
     parser.add_argument('--max_norm', type=float, default=10.0)
 
     # Misc params
-    parser.add_argument('--device', type=str, default="cuda:0",
+    # parser.add_argument('--device', type=str, default="cuda:0",
+    #                     help="Training device 'cpu' or 'cuda:0'")
+    parser.add_argument('--device', type=str, default="cpu",
                         help="Training device 'cpu' or 'cuda:0'")
     parser.add_argument('--gpu_mem_frac', type=float, default=0.5,
                         help='Fraction of GPU memory to allocate')

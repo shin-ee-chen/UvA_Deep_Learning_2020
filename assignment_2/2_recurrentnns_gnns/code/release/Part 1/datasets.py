@@ -217,3 +217,16 @@ class RandomCombinationsDataset(data.Dataset):
         seq = np.random.permutation(self.seq_length)
         return torch.FloatTensor(seq[:-1]), seq[-1]
 
+
+from torch.utils.data import DataLoader
+
+if __name__ == "__main__":
+    dataset = BinaryPalindromeDataset(10)
+    data_loader = DataLoader(dataset, 10, num_workers=1,
+                                 drop_last=True)
+    for step, (batch_inputs, batch_targets) in enumerate(data_loader):
+        if step < 1:
+            print(batch_inputs.shape)
+            print(batch_inputs[:,:20])
+            # print(batch_inputs[4][:10])
+            print(batch_targets)
