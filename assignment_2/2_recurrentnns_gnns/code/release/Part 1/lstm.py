@@ -19,7 +19,7 @@ class LSTM(nn.Module):
         ########################
         # PUT YOUR CODE HERE  #
         #######################
-        self.embeddings = nn.Embedding(3, input_dim)
+        self.embeddings = nn.Embedding(seq_length, input_dim)
 
         # define parameters
         self.W_gx = nn.Parameter(torch.Tensor(hidden_dim, input_dim))
@@ -65,14 +65,14 @@ class LSTM(nn.Module):
         c_prev = self.c_init
 
         # print(torch.squeeze(x[:, 0:1].long()))
-        x = self.embeddings(torch.squeeze(x.long()))
+        x = self.embeddings(x.long())
         # print(x[:, 0].shape)
         for t in range(self.seq_length - 1):
             # print(x[:0].t().view(-1,1))
-            g_t = self.tanh(self.W_gx @ x[:, t].view(1, -1)  + self.W_gh @ h_prev + self.b_g)
-            i_t = self.sigmoid(self.W_ix @ x[:, t].view(1, -1)  + self.W_ih @ h_prev + self.b_i)
-            f_t = self.sigmoid(self.W_fx @ x[:, t].view(1, -1)  + self.W_fh @ h_prev + self.b_f)
-            o_t = self.sigmoid(self.W_ox @ x[:, t].view(1, -1)  + self.W_oh @ h_prev + self.b_o)
+            g_t = self.tanh(self.W_gx @ x[:, t].view(1, -1) + self.W_gh @ h_prev + self.b_g)
+            i_t = self.sigmoid(self.W_ix @ x[:, t].view(1, -1) + self.W_ih @ h_prev + self.b_i)
+            f_t = self.sigmoid(self.W_fx @ x[:, t].view(1, -1) + self.W_fh @ h_prev + self.b_f)
+            o_t = self.sigmoid(self.W_ox @ x[:, t].view(1, -1) + self.W_oh @ h_prev + self.b_o)
 
             c_t = g_t * i_t + c_prev * f_t
             h_t = self.tanh(c_t) * o_t
