@@ -193,7 +193,7 @@ if __name__ == "__main__":
     # parser.add_argument('--model_type', type=str, default='biLSTM',
     #                     choices=['LSTM', 'biLSTM', 'GRU', 'peepLSTM'],
     #                     help='Model type: LSTM, biLSTM, GRU or peepLSTM')
-    parser.add_argument('--model_type', type=str, default='LSTM',
+    parser.add_argument('--model_type', type=str, default='peepLSTM',
                         choices=['LSTM', 'biLSTM', 'GRU', 'peepLSTM'],
                         help='Model type: LSTM, biLSTM, GRU or peepLSTM')
     parser.add_argument('--input_length', type=int, default=10,
