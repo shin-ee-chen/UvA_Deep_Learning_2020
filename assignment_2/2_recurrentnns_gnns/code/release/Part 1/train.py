@@ -129,7 +129,7 @@ def train(config):
 
         # Move to GPU
         batch_inputs = batch_inputs.to(device)     # [batch_size, seq_length,1]
-        batch_targets = batch_targets.to(device)   # [batch_size]
+        batch_targets = batch_targets.long().to(device)   # [batch_size]
 
         # Reset for next iteration
         model.zero_grad()
