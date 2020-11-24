@@ -52,7 +52,7 @@ class LSTM(nn.Module):
         
         # init
         for p in self.parameters():
-            nn.init.kaiming_uniform_(p, nonlinearity='linear')
+            nn.init.kaiming_normal_(p, nonlinearity='linear')
         ########################
         # END OF YOUR CODE    #
         #######################
