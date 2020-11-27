@@ -18,16 +18,40 @@ from __future__ import division
 from __future__ import print_function
 
 import torch.nn as nn
+import torch
 
 
 class TextGenerationModel(nn.Module):
 
     def __init__(self, batch_size, seq_length, vocabulary_size,
-                 lstm_num_hidden=256, lstm_num_layers=2, device='cuda:0'):
+                 lstm_num_hidden=256, lstm_num_layers=2, device='cuda:0', dropout_keep_prob = 0):
 
         super(TextGenerationModel, self).__init__()
         # Initialization here...
 
+        embedding_dim = lstm_num_hidden
+        self.embedding = nn.Embedding(vocabulary_size, embedding_dim)
+        self.lstm = nn.LSTM(embedding_dim, lstm_num_hidden, lstm_num_layers, 
+                            dropout= 1 - dropout_keep_prob)
+        self.linear = nn.Linear(lstm_num_hidden, vocabulary_size)
+
+        self.device = device
+        # self.init_state = (torch.zeros(lstm_num_layers, batch_size, lstm_num_hidden).to(device),
+        #                    torch.zeros(lstm_num_layers, batch_size, lstm_num_hidden).to(device))
+        self.prev_state = None
+
+        self.lstm_num_layers = lstm_num_layers
+        self.lstm_num_hidden = lstm_num_hidden
+
     def forward(self, x):
         # Implementation here...
-        pass
+        x = self.embedding(x)
+        if self.prev_state == None:
+            self.prev_state = (torch.zeros(self.lstm_num_layers, x.shape[1], 
+                                           self.lstm_num_hidden).to(self.device),
+                               torch.zeros(self.lstm_num_layers, x.shape[1], 
+                                           self.lstm_num_hidden).to(self.device))
+
+        out, state = self.lstm(x, self.prev_state)
+        out = self.linear(out)
+        return out, state
