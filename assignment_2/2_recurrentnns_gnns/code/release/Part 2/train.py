@@ -132,14 +132,18 @@ def train(config):
             input_x = gen_chars
             model.prev_state = None
             if config.sampling == "greedy":
-                for l in range(config.gen_sentence_len):
+                # generate senetence longer than T = 30 to see its effect
+                for l in range(config.gen_sentence_len * 3):
                     log_probs, model.prev_state = model(input_x)
                     predictions = torch.argmax(log_probs, dim=2)
                     gen_chars = torch.cat((gen_chars, predictions))
                     input_x = predictions
             
             for i in range(gen_chars.shape[1]):
-                print(dataset.convert_to_string(gen_chars[:,i].tolist()))
+                sentence = dataset.convert_to_string(gen_chars[:,i].tolist())
+                print("Sentence {}".format(i))
+                print(sentence[:config.gen_sentence_len])
+                print(sentence)
 
             # model.prev_state = None 
 
@@ -197,7 +201,7 @@ if __name__ == "__main__":
                         help='Output path for summaries')
     parser.add_argument('--print_every', type=int, default=50,
                         help='How often to print training progress')
-    parser.add_argument('--sample_every', type=int, default=100,
+    parser.add_argument('--sample_every', type=int, default=2813,
                         help='How often to sample from the model')
     parser.add_argument('--device', type=str, default=("cpu" if not torch.cuda.is_available() else "cuda"),
                         help="Device to run the model on.")
