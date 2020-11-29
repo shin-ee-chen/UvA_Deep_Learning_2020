@@ -39,7 +39,6 @@ class TextGenerationModel(nn.Module):
         # self.init_state = (torch.zeros(lstm_num_layers, batch_size, lstm_num_hidden).to(device),
         #                    torch.zeros(lstm_num_layers, batch_size, lstm_num_hidden).to(device))
         self.prev_state = None
-
         self.lstm_num_layers = lstm_num_layers
         self.lstm_num_hidden = lstm_num_hidden
 

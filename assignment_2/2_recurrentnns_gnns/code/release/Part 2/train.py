@@ -30,12 +30,12 @@ from torch.utils.data import DataLoader
 
 from dataset import TextDataset
 from model import TextGenerationModel
+from torch.utils.tensorboard import SummaryWriter
 
 import os
 import random
 ###############################################################################
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_TXT_FILE = '{}/assets/book_EN_grimms_fairy_tails.txt'.format(BASE_DIR)
 
 def train(config):
 
@@ -59,11 +59,29 @@ def train(config):
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer,config.milestones, 
                                                      config.learning_rate_decay)
 
+    # Use pre-trained checkpoints
+    output_file_name = "{}_{}_{}".format(os.path.basename(config.txt_file), 
+                                         config.gen_sentence_len, config.sampling)
+    checkpoint_path = os.path.join(config.checkpoint_path, 
+                                           "{}.pth".format(output_file_name))
+    if os.path.exists(checkpoint_path):
+        print("Continue training model {}".format(checkpoint_path))
+        checkpoint = torch.load(checkpoint_path, map_location=device)
+        model.load_state_dict(checkpoint)
+
+    if not os.path.exists(config.summary_path):
+        os.makedirs(config.summary_path)
+    
+    if not os.path.exists(config.checkpoint_path):
+        os.makedirs(config.checkpoint_path)
+
+    writer = SummaryWriter(config.summary_path, filename_suffix=output_file_name)
 
     for step, (batch_inputs, batch_targets) in enumerate(data_loader):
         # Only for time measurement of step through network
         t1 = time.time()
 
+    
         #######################################################
         # Add more code here ...
         #######################################################
@@ -74,6 +92,7 @@ def train(config):
         model.train()
         optimizer.zero_grad()
 
+        model.prev_state = None
         log_probs, _ = model.forward(batch_inputs) # shape:(seq_len,batch_size,vocab_size)(30,64,87)
         
         predictions = torch.argmax(log_probs, dim=2) #shape:(30,64)
@@ -92,6 +111,9 @@ def train(config):
         examples_per_second = config.batch_size/float(t2-t1)
 
         if (step + 1) % config.print_every == 0:
+            torch.save(model.state_dict(), checkpoint_path)
+            writer.add_scalar("{} Loss: ".format(output_file_name), loss, step)
+            writer.add_scalar("{} Accuracy:".format(output_file_name), accuracy, step)
 
             print("[{}] Train Step {:04d}/{:04d}, Batch Size = {}, \
                     Examples/Sec = {:.2f}, "
@@ -119,8 +141,7 @@ def train(config):
             for i in range(gen_chars.shape[1]):
                 print(dataset.convert_to_string(gen_chars[:,i].tolist()))
 
-            model.prev_state = None 
-
+            # model.prev_state = None 
 
         if step == config.train_steps:
             # If you receive a PyTorch data-loader error,
@@ -140,7 +161,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     # Model params
-    parser.add_argument('--txt_file', type=str, required=False, default=DEFAULT_TXT_FILE,
+    parser.add_argument('--txt_file', type=str, required=False, 
+                        default='{}/assets/book_EN_grimms_fairy_tails.txt'.format(BASE_DIR),
                         help="Path to a .txt file to train on")
     parser.add_argument('--seq_length', type=int, default=30,
                         help='Length of an input sequence')
@@ -171,7 +193,7 @@ if __name__ == "__main__":
     parser.add_argument('--max_norm', type=float, default=5.0, help='--')
 
     # Misc params
-    parser.add_argument('--summary_path', type=str, default="./summaries/",
+    parser.add_argument('--summary_path', type=str, default="{}/summaries/".format(BASE_DIR),
                         help='Output path for summaries')
     parser.add_argument('--print_every', type=int, default=50,
                         help='How often to print training progress')
@@ -179,6 +201,9 @@ if __name__ == "__main__":
                         help='How often to sample from the model')
     parser.add_argument('--device', type=str, default=("cpu" if not torch.cuda.is_available() else "cuda"),
                         help="Device to run the model on.")
+    parser.add_argument('--checkpoint_path', type=str, default="{}/checkpoints/".format(BASE_DIR),
+                        help='Output path for checkpoints')
+
     # If needed/wanted, feel free to add more arguments
     # params for sequence generation
     parser.add_argument('--gen_sentence_len', type=int, default=30,

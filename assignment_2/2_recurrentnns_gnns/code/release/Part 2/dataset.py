@@ -55,17 +55,20 @@ class TextDataset(data.Dataset):
 from torch.utils.data import DataLoader
 import torch
 if __name__ == "__main__":
-    dataset = TextDataset("./assets/book_EN_grimms_fairy_tails.txt", 30)  # fixme
-    print(dataset.convert_to_string(dataset[0][0]))
-    data_loader = DataLoader(dataset, 5)
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    dataset = TextDataset("{}/assets/book_EN_grimms_fairy_tails.txt".format(BASE_DIR), 30)  # fixme
+    # print(dataset.convert_to_string(dataset[0][0]))
+    data_loader = DataLoader(dataset, 64)
+    s = 0
+    batch = None
     for step, (batch_inputs, batch_targets) in enumerate(data_loader):
         batch_inputs = torch.stack(batch_inputs)
-        print(batch_inputs.shape)
-        if step > 3:
-            break
+        s = step
+        batch = batch_inputs
         # text = batch_inputs[0].tolist()
         # t = batch_targets[0].tolist()
         # # for i in text:
         # print(dataset.convert_to_string(text))
         # print(step)
         # print(dataset.convert_to_string(t))
+    print(s, batch.shape)
