@@ -248,7 +248,7 @@ if __name__ == "__main__":
                         help='Number of sentence generated each time')
     parser.add_argument('--temperature', type=float, default= 0.5,
                         help = 'tempaerature parameter for softmax')
-    parser.add_argument('--gen_input', type = str, default='Sleeping beauty is', 
+    parser.add_argument('--gen_input', type = str, default='Sleeping beauty is ', 
                         help = 'input for text generation')
                         
 
