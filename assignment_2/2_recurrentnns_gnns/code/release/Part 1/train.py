@@ -25,6 +25,7 @@ from datetime import datetime
 import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader
+import os
 
 # datasets
 import datasets
@@ -39,14 +40,21 @@ import numpy as np
 
 # You may want to look into tensorboardX for logging
 # from tensorboardX import SummaryWriter
-
+from torch.utils.tensorboard import SummaryWriter
 ###############################################################################
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def train(config):
-    np.random.seed(0)
-    torch.manual_seed(0)
+    np.random.seed(config.random_seed)
+    torch.manual_seed(config.random_seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(config.random_seed)
+        torch.cuda.manual_seed_all(config.random_seed)
 
+    if not os.path.exists(config.summary_path):
+        os.makedirs(config.summary_path)
+    writer = SummaryWriter(config.summary_path)
 
     # Initialize the device which to run the model on
     device = torch.device(config.device)
@@ -75,7 +83,7 @@ def train(config):
     elif config.dataset == 'bipalindrome':
         print('Load binary palindrome dataset ...')
         # Initialize the dataset and data loader
-        config.num_classes = config.input_length
+        config.num_classes = 2
         dataset = datasets.BinaryPalindromeDataset(config.input_length)
         data_loader = DataLoader(dataset, config.batch_size, num_workers=1,
                                  drop_last=True)
@@ -118,7 +126,8 @@ def train(config):
         ).to(device)
 
     # Setup the loss and optimizer
-    loss_function = torch.nn.NLLLoss()
+    # loss_function = torch.nn.NLLLoss()
+    loss_function =  torch.nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=config.learning_rate)
 
     for step, (batch_inputs, batch_targets) in enumerate(data_loader):
@@ -160,6 +169,16 @@ def train(config):
         examples_per_second = config.batch_size/float(t2-t1)
 
         if step % 60 == 0:
+            # writer.add_scalar("{}".format(config.model_type), loss, step)
+            # writer.add_scalar("{}".format(config.model_type), accuracy)
+            with open("{}/results/{}_accuracy_{}.txt".format(BASE_DIR, config.model_type, config.random_seed),"a") as out1:
+                out1.write("{},{}\n".format(step, accuracy))
+                out1.close()
+
+            with open("{}/results/{}_loss_{}.txt".format(BASE_DIR, config.model_type,config.random_seed),"a") as out2:
+                out2.write("{},{}\n".format(step, loss))
+                out2.close()
+            
 
             print("[{}] Train Step {:04d}/{:04d}, Batch Size = {}, \
                    Examples/Sec = {:.2f}, "
@@ -190,10 +209,7 @@ if __name__ == "__main__":
                         choices=['randomcomb', 'bss', 'bipalindrome'],
                         help='Dataset to be trained on.')
     # Model params
-    # parser.add_argument('--model_type', type=str, default='biLSTM',
-    #                     choices=['LSTM', 'biLSTM', 'GRU', 'peepLSTM'],
-    #                     help='Model type: LSTM, biLSTM, GRU or peepLSTM')
-    parser.add_argument('--model_type', type=str, default='peepLSTM',
+    parser.add_argument('--model_type', type=str, default='LSTM',
                         choices=['LSTM', 'biLSTM', 'GRU', 'peepLSTM'],
                         help='Model type: LSTM, biLSTM, GRU or peepLSTM')
     parser.add_argument('--input_length', type=int, default=10,
@@ -215,18 +231,20 @@ if __name__ == "__main__":
     parser.add_argument('--max_norm', type=float, default=10.0)
 
     # Misc params
-    # parser.add_argument('--device', type=str, default="cuda:0",
-    #                     help="Training device 'cpu' or 'cuda:0'")
-    parser.add_argument('--device', type=str, default="cpu",
-                        help="Training device 'cpu' or 'cuda:0'")
+    parser.add_argument('--device', type=str, default=("cpu" if not torch.cuda.is_available() else "cuda"),
+                        help="Device to run the model on.")
     parser.add_argument('--gpu_mem_frac', type=float, default=0.5,
                         help='Fraction of GPU memory to allocate')
     parser.add_argument('--log_device_placement', type=bool, default=False,
                         help='Log device placement for debugging')
-    parser.add_argument('--summary_path', type=str, default="./summaries/",
+    parser.add_argument('--summary_path', type=str, default="{}/summaries/".format(BASE_DIR),
                         help='Output path for summaries')
+
+    parser.add_argument('--random_seed', type = int, default=20, 
+                        help = 'random seed for running experiments')
 
     config = parser.parse_args()
 
+    print(vars(config))
     # Train the model
     train(config)

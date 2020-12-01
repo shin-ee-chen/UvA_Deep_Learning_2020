@@ -76,6 +76,7 @@ def train(config):
         os.makedirs(config.checkpoint_path)
 
     writer = SummaryWriter(config.summary_path, filename_suffix=output_file_name)
+    config.gen_txt_path = os.path.join(BASE_DIR, config.summary_path, "{}.txt".format(output_file_name))
 
     for step, (batch_inputs, batch_targets) in enumerate(data_loader):
         # Only for time measurement of step through network
@@ -126,7 +127,7 @@ def train(config):
 
         if (step + 1) % config.sample_every == 0:
             # Generate some sentences by sampling from the model
-            inference(model, config, dataset)
+            inference(step, model, config, dataset)
             
 
 
@@ -138,17 +139,34 @@ def train(config):
 
     print('Done training.')
     print("Random sampling examples, temperature = {}".format(config.temperature))
-    inference(model, config, dataset, "random")
+    inference(step, model, config, dataset, "random")
+    inference(step, model, config, dataset, "greedy", True)
+    inference(step, model, config, dataset, "random", True)
 
 
-def inference(model, config, dataset, sampling = 'greedy'):
+def inference(step, model, config, dataset, sampling = 'greedy', gen_input = False):
     model.eval()
-    gen_chars = random.sample(range(0,dataset.vocab_size),config.gen_sentence_num)
-    gen_chars = torch.LongTensor(gen_chars).view(1, -1).to(config.device)
-
-    input_x = gen_chars
     model.prev_state = None
-        # generate senetence longer than T = 30 to see its effect
+
+    if gen_input:
+        gen_chars = dataset.convert_to_ix(config.gen_input)
+        gen_chars = torch.LongTensor(gen_chars).view(-1, 1).to(config.device)
+        input_x = gen_chars
+        # probs, model.prev_state = model(gen_chars)
+        # if sampling == "greedy":
+        #     predictions = torch.argmax(probs, dim=2)
+        # else:
+        #     probs = torch.nn.functional.softmax(probs * config.temperature, dim = 2) 
+        #     predictions = torch.multinomial(torch.squeeze(probs), 1).view(1,-1)
+        # gen_chars = torch.cat((gen_chars, predictions))
+        # input_x = predictions
+
+    else:
+        gen_chars = random.sample(range(0,dataset.vocab_size),config.gen_sentence_num)
+        gen_chars = torch.LongTensor(gen_chars).view(1, -1).to(config.device)
+        input_x = gen_chars
+
+    # generate senetence longer than T = 30 to see its effect
     for l in range(config.gen_sentence_len * 3):
         #probs shape:(seq_len,batch_size,vocab_size)
         probs, model.prev_state = model(input_x)
@@ -159,13 +177,16 @@ def inference(model, config, dataset, sampling = 'greedy'):
             predictions = torch.multinomial(torch.squeeze(probs), 1).view(1,-1)
         gen_chars = torch.cat((gen_chars, predictions))
         input_x = predictions
-            
-    for i in range(gen_chars.shape[1]):
-        sentence = dataset.convert_to_string(gen_chars[:,i].tolist())
-        print("\nSentence {}".format(i))
-        print(sentence[:config.gen_sentence_len])
-        print(sentence)
-
+    
+    with open(config.gen_txt_path, "a") as out:
+        out.write("Step = {}\n".format(step))
+        for i in range(gen_chars.shape[1]):
+            sentence = dataset.convert_to_string(gen_chars[:,i].tolist())
+            out.write("Sentence {}, len = {}, {}\n".format(i, 
+                      config.gen_sentence_len, sentence[:config.gen_sentence_len]))
+            out.write("Sentence {}, len = {}, {}\n".format(i, 
+                      config.gen_sentence_len * 3, sentence))
+        out.close()
 ###############################################################################
 ###############################################################################
 
@@ -211,7 +232,8 @@ if __name__ == "__main__":
                         help='Output path for summaries')
     parser.add_argument('--print_every', type=int, default=500,
                         help='How often to print training progress')
-    parser.add_argument('--sample_every', type=int, default=2799,
+    #sample every 1/3 training steps
+    parser.add_argument('--sample_every', type=int, default=2813,
                         help='How often to sample from the model')
     parser.add_argument('--device', type=str, default=("cpu" if not torch.cuda.is_available() else "cuda"),
                         help="Device to run the model on.")
@@ -224,10 +246,10 @@ if __name__ == "__main__":
                         help='Length of generated sequences')
     parser.add_argument('--gen_sentence_num', type=int, default=8,
                         help='Number of sentence generated each time')
-    # parser.add_argument('--sampling', type=str, default='random',
-    #                     help='Sampling method: "greedy" or "random"')
     parser.add_argument('--temperature', type=float, default= 0.5,
                         help = 'tempaerature parameter for softmax')
+    parser.add_argument('--gen_input', type = str, default='Sleeping beauty is', 
+                        help = 'input for text generation')
                         
 
     config = parser.parse_args()

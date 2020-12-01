@@ -1,0 +1,210 @@
+WARNING: $PATH does not agree with $PATH_modshare counter. The following directories' usage counters were adjusted to match. Note that this may mean that module unloading may not work correctly.
+ /opt/slurm/bin /hpc/eb/compilerwrappers/linkers /sw/arch/Debian10/EB_production/2020/software/Miniconda3/4.7.12.1 /opt/slurm/sbin /hpc/eb/compilerwrappers/compilers
+Initialize dataset with 540241 characters, 87 unique.
+[2020-11-30 00:07] Train Step 0499/1000000, Batch Size = 64,                     Examples/Sec = 6152.83, Accuracy = 0.48, Loss = 1.789
+[2020-11-30 00:07] Train Step 0999/1000000, Batch Size = 64,                     Examples/Sec = 6077.33, Accuracy = 0.52, Loss = 1.596
+[2020-11-30 00:07] Train Step 1499/1000000, Batch Size = 64,                     Examples/Sec = 5688.28, Accuracy = 0.55, Loss = 1.463
+[2020-11-30 00:07] Train Step 1999/1000000, Batch Size = 64,                     Examples/Sec = 5763.01, Accuracy = 0.54, Loss = 1.535
+[2020-11-30 00:07] Train Step 2499/1000000, Batch Size = 64,                     Examples/Sec = 6163.56, Accuracy = 0.58, Loss = 1.363
+
+Sentence 0
+% the world her father and sai
+% the world her father and said, ‘I will be a little man said the forest and said, ‘I will 
+
+Sentence 1
+He was so me and the bride and
+He was so me and the bride and said, ‘I will be a little man said the forest and said, ‘I w
+
+Sentence 2
+*
+
+
+
+
+THE WALS OR THE THE THE 
+*
+
+
+
+
+THE WALS OR THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE T
+
+Sentence 3
+nd the forest and said, ‘I wil
+nd the forest and said, ‘I will be a little man said the forest and said, ‘I will be a litt
+
+Sentence 4
+#ER AND THE THE THE THE THE TH
+#ER AND THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE
+
+Sentence 5
+I will be a little man said th
+I will be a little man said the forest and said, ‘I will be a little man said the forest an
+
+Sentence 6
+4 the fire and said, ‘I will b
+4 the fire and said, ‘I will be a little man said the forest and said, ‘I will be a little 
+
+Sentence 7
+; and the stream and said, ‘I 
+; and the stream and said, ‘I will be a little man said the forest and said, ‘I will be a l
+[2020-11-30 00:07] Train Step 2999/1000000, Batch Size = 64,                     Examples/Sec = 6270.10, Accuracy = 0.58, Loss = 1.405
+[2020-11-30 00:08] Train Step 3499/1000000, Batch Size = 64,                     Examples/Sec = 5606.19, Accuracy = 0.59, Loss = 1.387
+[2020-11-30 00:08] Train Step 3999/1000000, Batch Size = 64,                     Examples/Sec = 6089.04, Accuracy = 0.57, Loss = 1.362
+[2020-11-30 00:08] Train Step 4499/1000000, Batch Size = 64,                     Examples/Sec = 5714.80, Accuracy = 0.58, Loss = 1.371
+[2020-11-30 00:08] Train Step 4999/1000000, Batch Size = 64,                     Examples/Sec = 6219.25, Accuracy = 0.58, Loss = 1.320
+[2020-11-30 00:08] Train Step 5499/1000000, Batch Size = 64,                     Examples/Sec = 6039.59, Accuracy = 0.59, Loss = 1.330
+
+Sentence 0
+be a boy to the fox came to th
+be a boy to the fox came to the strange the boy to the world the princess were the boy to t
+
+Sentence 1
+y the boy to the world the mor
+y the boy to the world the morning the strange the boy to the world the princess were the b
+
+Sentence 2
+quite door to the fox came to 
+quite door to the fox came to the strange the boy to the fox came to the strange the boy to
+
+Sentence 3
+0 and said, ‘I will not be a b
+0 and said, ‘I will not be a boy to the fox came to the strange the boy to the world the pr
+
+Sentence 4
+For the strange the boy to the
+For the strange the boy to the world the princess were the boy to the world the princess we
+
+Sentence 5
+VE THIS WILLOW-WREN AND THE SA
+VE THIS WILLOW-WREN AND THE SALAGE
+     THE GOLDEN GOOSE-GIRL
+
+There was all the boy to the
+
+Sentence 6
+could not stand before the wor
+could not stand before the world the princess were the boy to the world the princess were t
+
+Sentence 7
+QEEENS
+     THE GOLDEN GOOSE
+ 
+QEEENS
+     THE GOLDEN GOOSE
+     THE GOLDEN GOOSE-GIRL
+
+There was all the boy to the world
+[2020-11-30 00:08] Train Step 5999/1000000, Batch Size = 64,                     Examples/Sec = 5904.22, Accuracy = 0.60, Loss = 1.260
+[2020-11-30 00:08] Train Step 6499/1000000, Batch Size = 64,                     Examples/Sec = 5578.46, Accuracy = 0.62, Loss = 1.290
+[2020-11-30 00:08] Train Step 6999/1000000, Batch Size = 64,                     Examples/Sec = 5605.02, Accuracy = 0.59, Loss = 1.310
+[2020-11-30 00:08] Train Step 7499/1000000, Batch Size = 64,                     Examples/Sec = 6072.51, Accuracy = 0.60, Loss = 1.287
+[2020-11-30 00:09] Train Step 7999/1000000, Batch Size = 64,                     Examples/Sec = 6013.20, Accuracy = 0.62, Loss = 1.258
+
+Sentence 0
+But the wild beard the window,
+But the wild beard the window, and the king was to be a little time and the window with him
+
+Sentence 1
+@MEMENT TO THE BUSH
+
+A far was
+@MEMENT TO THE BUSH
+
+A far was of the window, and the king was to be a little time and the 
+
+Sentence 2
+: ‘I have been a beautiful bea
+: ‘I have been a beautiful beautiful beautiful beautiful beautiful beautiful beautiful beau
+
+Sentence 3
+What had been a little time th
+What had been a little time the first the first was to be a little time and the window with
+
+Sentence 4
+6. Then the first was to be a 
+6. Then the first was to be a little time and the window with him a great the window, and t
+
+Sentence 5
+01.  The witch was a beautiful
+01.  The witch was a beautiful beautiful beautiful beautiful beautiful beautiful beautiful 
+
+Sentence 6
+!’ ‘What a little tailor, and 
+!’ ‘What a little tailor, and the king was to be a little time and the window with him a gr
+
+Sentence 7
+Project Gutenberg-tm electroni
+Project Gutenberg-tm electronic work and the window with him a great the window, and the ki
+Done training.
+Random sampling examples, temperature = 0.5
+
+Sentence 0
+] burg hewheBureverry,
+his swe
+] burg hewheBureverry,
+his swember!’
+Then he has yifeplincthenel:
+
+ Whu wifm’; pocfightymli
+
+Sentence 1
+chuals? -u if you?’ ‘Fundize.
+
+chuals? -u if you?’ ‘Fundize.
+Whep?’”
+,’s pitally helpts?[Os twlonitor’s fastlyth hung?--ho
+
+Sentence 2
+Gooddiziensuusbrinc and $love!
+Gooddiziensuusbrinc and $love!’ ‘The litthiest
+unhad to thinkess, yook,’ how pell is twour 
+
+Sentence 3
+7[8. Jip
+Gutenbergant, we putt
+7[8. Jip
+Gutenbergant, we puttoning” erveaily
+quiets licenplivil insing,
+feidelvart@cslatia
+
+Sentence 4
+2Ja,’ sabk:
+‘Yowings no
+siette
+2Ja,’ sabk:
+‘Yowings no
+siette as!’
+The swild
+unpare
+my Faaaly
+skeplated in
+jus-ying till h
+
+Sentence 5
+lit
+beawire. Aftexcaup.[.’ppie
+lit
+beawire. Aftexcaup.[.’ppied healf?’
+
+Also hite.’
+Surtuas and wlonged travell.’ howed Dl
+
+Sentence 6
+xwhe many
+peasmed.
+gok;
+you co
+xwhe many
+peasmed.
+gok;
+you come
+fleron, and someboclouce’ thatayern,:;
+u aves, ‘try tw_ to
+
+Sentence 7
+*(1469780@-64834; sprueated.’
+
+*(1469780@-64834; sprueated.’
+(bow, heard thinkets ceirty, kingdomfuled)man 3 Gunom loras; 
+Done

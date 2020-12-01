@@ -20,7 +20,7 @@ class LSTM(nn.Module):
         # PUT YOUR CODE HERE  #
         #######################
 
-        embedding_dim = 6
+        embedding_dim = 10
         self.embeddings = nn.Embedding(3, embedding_dim)
 
         # define parameters
@@ -45,8 +45,6 @@ class LSTM(nn.Module):
         
         self.h_init = nn.Parameter(torch.Tensor(hidden_dim, batch_size),requires_grad=False)
         self.c_init = nn.Parameter(torch.Tensor(hidden_dim, batch_size),requires_grad=False)
-        # self.h_init = torch.zeros(hidden_dim, batch_size).to(device)
-        # self.c_init = torch.zeros(hidden_dim, batch_size).to(device)
         self.device = device
         self.seq_length = seq_length
         self.tanh = nn.Tanh()
@@ -81,7 +79,8 @@ class LSTM(nn.Module):
             c_prev = c_t
         
         p_t = self.W_ph @ h_t + self.b_p
-        out = self.softmax(p_t.t())
+        # out = self.softmax(p_t.t())
+        out = p_t.t()
         return out
         ########################
         # END OF YOUR CODE    #
