@@ -174,7 +174,7 @@ def inference(step, model, config, dataset, sampling = 'greedy', gen_input = Fal
             predictions = torch.argmax(probs, dim=2)
         else:
             probs = torch.nn.functional.softmax(probs * config.temperature, dim = 2) 
-            predictions = torch.multinomial(torch.squeeze(probs), 1).view(1,-1)
+            predictions = torch.multinomial(probs[0,:,:], 1).view(1,-1)
         gen_chars = torch.cat((gen_chars, predictions))
         input_x = predictions
     

@@ -240,7 +240,7 @@ if __name__ == "__main__":
     parser.add_argument('--summary_path', type=str, default="{}/summaries/".format(BASE_DIR),
                         help='Output path for summaries')
 
-    parser.add_argument('--random_seed', type = int, default=20, 
+    parser.add_argument('--random_seed', type = int, default=5, 
                         help = 'random seed for running experiments')
 
     config = parser.parse_args()
