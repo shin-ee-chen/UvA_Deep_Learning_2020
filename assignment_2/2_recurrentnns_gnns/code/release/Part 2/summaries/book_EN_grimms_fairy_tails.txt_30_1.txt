@@ -1,110 +1,58 @@
 Step = 2812
-Sentence 0, len = 30, 3 and the second where the sec
-Sentence 0, len = 90, 3 and the second where the second to the wood and said: ‘I am go into the word and said: ‘I
-Sentence 1, len = 30, : ‘I will be a little which wa
-Sentence 1, len = 90, : ‘I will be a little which was a little work was a little work was a little work was a lit
-Sentence 2, len = 30, You may standing to the wood a
-Sentence 2, len = 90, You may standing to the wood and said: ‘I am go into the word and said: ‘I am go into the w
-Sentence 3, len = 30, ﻿7 and said: ‘I will be a litt
-Sentence 3, len = 90, ﻿7 and said: ‘I will be a little which was a little work was a little work was a little wor
-Sentence 4, len = 30, When the second where the seco
-Sentence 4, len = 90, When the second where the second to the wood and said: ‘I am go into the word and said: ‘I 
-Sentence 5, len = 30, 4 ‘I will be a little which wa
-Sentence 5, len = 90, 4 ‘I will be a little which was a little work was a little work was a little work was a lit
-Sentence 6, len = 30, could not be a little which wa
-Sentence 6, len = 90, could not be a little which was a little work was a little work was a little work was a lit
-Sentence 7, len = 30, 57 and said: ‘I will be a litt
-Sentence 7, len = 90, 57 and said: ‘I will be a little which was a little work was a little work was a little wor
-Step = 5625
-Sentence 0, len = 30, 1.  The dog said to him and th
-Sentence 0, len = 90, 1.  The dog said to him and the sea, and the mouse the sea who had to be a should be a stre
-Sentence 1, len = 30, d the sea, and the mouse the s
-Sentence 1, len = 90, d the sea, and the mouse the sea who had to be a should be a stread and said, ‘I will take 
-Sentence 2, len = 30, y the shoes to the world and s
-Sentence 2, len = 90, y the shoes to the world and said, ‘I will take him a little tailor was to the world, and t
-Sentence 3, len = 30, . The man said to him and the 
-Sentence 3, len = 90, . The man said to him and the sea, and the mouse the sea who had to be a should be a stread
-Sentence 4, len = 30, und the wolf down to the world
-Sentence 4, len = 90, und the wolf down to the world and said, ‘I will take him a little tailor was to the world,
-Sentence 5, len = 30, My said to him and the sea, an
-Sentence 5, len = 90, My said to him and the sea, and the mouse the sea who had to be a should be a stread and sa
-Sentence 6, len = 30, #ZER OF THE SEVEN RAVEN
-
-There
-Sentence 6, len = 90, #ZER OF THE SEVEN RAVEN
-
-There was so much that the mouse the sea, and the mouse the sea wh
-Sentence 7, len = 30, p of the world, and the mouse 
-Sentence 7, len = 90, p of the world, and the mouse the sea who had to be a should be a stread and said, ‘I will 
-Step = 8438
-Sentence 0, len = 30, 3, and said: ‘I will give you 
-Sentence 0, len = 90, 3, and said: ‘I will give you what he had been and said: ‘I will give you what he had been 
-Sentence 1, len = 30, ing the second said: ‘I will g
-Sentence 1, len = 90, ing the second said: ‘I will give you what he had been and said: ‘I will give you what he h
-Sentence 2, len = 30, UNTAIN
-     THE TWELVE DANCING
-Sentence 2, len = 90, UNTAIN
-     THE TWELVE DANCING PRINCE
-     THE STORY OF THE BEAN
-     THE STORY OF THE BEAN
-Sentence 3, len = 30, he said, ‘I will give you what
-Sentence 3, len = 90, he said, ‘I will give you what he had been and said: ‘I will give you what he had been and 
+Sentence 0, len = 30, !’ said the work and said: ‘I 
+Sentence 0, len = 90, !’ said the work and said: ‘I will not see the work and said: ‘I will not see the work and 
+Sentence 1, len = 30, ﻿811.E.1.  The man was a littl
+Sentence 1, len = 90, ﻿811.E.1.  The man was a little courtyor was a little courtyor was a little courtyor was a 
+Sentence 2, len = 30, X The world was a little court
+Sentence 2, len = 90, X The world was a little courtyor was a little courtyor was a little courtyor was a little 
+Sentence 3, len = 30, Oh, and the work and said: ‘I 
+Sentence 3, len = 90, Oh, and the work and said: ‘I will not see the work and said: ‘I will not see the work and 
 Sentence 4, len = 30, 
 
-The dog said to him and said
+The man was a little courtyo
 Sentence 4, len = 90, 
 
-The dog said to him and said: ‘I will give you what he had been and said: ‘I will give yo
-Sentence 5, len = 30, 9/91/1))) or of the shoes to t
-Sentence 5, len = 90, 9/91/1))) or of the shoes to the work and said: ‘I will give you what he had been and said:
-Sentence 6, len = 30, You may not see the second cam
-Sentence 6, len = 90, You may not see the second came to the castle who had been and said: ‘I will give you what 
-Sentence 7, len = 30, ve him a little daughter, and 
-Sentence 7, len = 90, ve him a little daughter, and said: ‘I will give you what he had been and said: ‘I will giv
+The man was a little courtyor was a little courtyor was a little courtyor was a little co
+Step = 5625
+Sentence 0, len = 30, f the stars and the cook to th
+Sentence 0, len = 90, f the stars and the cook to the cat said, ‘I will not have the cook to the castle and the c
+Sentence 1, len = 30, For the stars were said, ‘I wi
+Sentence 1, len = 90, For the stars were said, ‘I will not see the world, and the second said, ‘I will not have t
+Sentence 2, len = 30, r the stars were said, ‘I will
+Sentence 2, len = 90, r the stars were said, ‘I will not see the world, and the second said, ‘I will not have the
+Sentence 3, len = 30, queen, and the second said, ‘I
+Sentence 3, len = 90, queen, and the second said, ‘I will not have the cook to the castle and the cook to the cat
+Sentence 4, len = 30, zed the stars and said: ‘The w
+Sentence 4, len = 90, zed the stars and said: ‘The world was the stars and the cook to the cat said, ‘I will not 
+Step = 8438
+Sentence 0, len = 30, re the wolf was going to the s
+Sentence 0, len = 90, re the wolf was going to the second sent of the world to the world to the world to the worl
+Sentence 1, len = 30, ked the world to the world to 
+Sentence 1, len = 90, ked the world to the world to the world to the world to the world to the world to the world
+Sentence 2, len = 30, was the strength with his head
+Sentence 2, len = 90, was the strength with his head to the second sent of the world to the world to the world to
+Sentence 3, len = 30, I will give you the world that
+Sentence 3, len = 90, I will give you the world that the window was the strength with his head to the second sent
+Sentence 4, len = 30, One when the wolf was going to
+Sentence 4, len = 90, One when the wolf was going to the second sent of the world to the world to the world to th
 Step = 8441
-Sentence 0, len = 30, [all
-into the wood ass.
-
-
-
-
-TH
-Sentence 0, len = 90, [all
-into the wood ass.
-
-
-
-
-THE BIREM-SHAN
-     THE GOOST OR IMBER’ ‘PriAu fall of child; a
-Sentence 1, len = 30, ving dress
-morning on it under
-Sentence 1, len = 90, ving dress
-morning on it under the gate, and cross-deeped up to the bird, and
-said, ‘I will
-Sentence 2, len = 30, El untils brother crowlish; th
-Sentence 2, len = 90, El untils brother crowlish; then she thought she was
-ate somethise, and they were never,
-wo
-Sentence 3, len = 30, ? How first know even it sleep
-Sentence 3, len = 90, ? How first know even it sleeping, and caught when all they sat
-together and called And, in
-Sentence 4, len = 30, ” The youth took the king’s
-re
-Sentence 4, len = 90, ” The youth took the king’s
-rest tread, and can a sure great help me? Wither solk and curl,
-Sentence 5, len = 30, 81. Ho be no in and sack. Once
-Sentence 5, len = 90, 81. Ho be no in and sack. Once
-a larst and
-people, and was free-bound you? ‘Mo no oblegrifi
-Sentence 6, len = 30, 90 The dog came on try; it gav
-Sentence 6, len = 90, 90 The dog came on try; it gave him likewise, take the table, sill bring till at last he to
-Sentence 7, len = 30, feling everster and swent in t
-Sentence 7, len = 90, feling everster and swent in the worse and never knew another some more prince; and it was 
+Sentence 0, len = 30, that was the roast, I must bre
+Sentence 0, len = 90, that was the roast, I must bread into the youngest, for no one looked not into
+the parson. 
+Sentence 1, len = 30, 1968@(.E? Ball but may premed 
+Sentence 1, len = 90, 1968@(.E? Ball but may premed to seonather, ‘anted to the happy on his again.’ The bear pat
+Sentence 2, len = 30, [913), man concerndid on, with
+Sentence 2, len = 90, [913), man concerndid on, with men within ooce to dry upon, he could be a draught: ‘What ar
+Sentence 3, len = 30, $X13I pockets of
+bigged fell m
+Sentence 3, len = 90, $X13I pockets of
+bigged fell more in the states and more enough so much gave him a littly t
+Sentence 4, len = 30, @M. ‘Take my told a few bride.
+Sentence 4, len = 90, @M. ‘Take my told a few bride.’ At last he had her across agreed to light this, he doars.’ 
 Step = 8441
-Sentence 0, len = 30, Sleeping beauty is oear ng tyf
-Sentence 0, len = 90, Sleeping beauty is oear ng tyfuti on tf r aoichotlhnafethetussnne rhyiet,de,rsne eiraia nd, er i edongslnrsoi avesnsvrn   yist nsna ,o,eoit  ochltooetp r  rn w fk y rkdheoos eehhwoitooeeie vnetngtoirn,rnsrndteisciih n s aa ee ednseeniwottcnrsadbaretrn,nrrhoheiti ygddeoi eoooredr lsoueenrnalrnn r ewii n   sit eiiaosaasnaet  oltiagnrregroet  a ndrnleeoedeios,t ndeeeey pns rnue  aorrrrr waeiooitsd nnneiiibotrnnnne eooei,rnnlrheeiiisonrrsn  siyeelpnnne  eo ea ed ,s,,oio o vuslrsara i   nrmfteriyetgsltns  oiaeln n rse y eio nnr y aoteadoodagntoiemodnnentyum t ,  ndanyiiss  nooop t eirc nne t o kkeohwagshwoeeohmutiedneeret art,nsas nd eddsdhwne  e tstoewvre oei dd vsrm rs eo tf nsoefelaaoeadnrthryoul,r,ydgnstiis, e nsd i  aee onne avsetrtns np hn e onool iaitoouoeetvsletnysnlryrrsrsdie,itii ,oyi yy,e aen n nns r nsot rsnp toioetoasewo oooaowh nn hnktdersfdntlnioeetie  eaa i i yinn vinft vtrstanaoneitelge teiitendsla nidyerahrlnhd e ycfoci d leeyeoeansoairtnaoaiap rnsrt rtrs ,tcdnreweitaatouettoahreid dnyttimrdh nteysn toe hinyiaeooin  owh stas  nrdnrn t neettrnto eieiiethwoedseui  tvtstnlteirs  ltta aee  ey dn  w oa bsp  a a woet eiuktreoa ndrdhrvhtvgs  isndfo eeeiaieie t n oiuravvlnrtdtnthioautm leiiioaiai  nntsiawittnnndnrnsTeer lr nhlgioiioi onrsaiitoieennsnrgaf etlnnyrndd e aoereavheii aiiitvsnnd driirrnanrnnhe oioaeavlsyiteoeiirofnnsrrae, nhdusnn nfei aogd aoiirheeaeucgwnnreonnngs drdrrhraeiodnsei  araaoiamw nr e rno negrlndaaoeitvsaetsearoyiitgldr e ll  dtdnanneea,ewvsiat rieet oydr  ie etetogsdssf eat d gacr ne o  isns aoarrhetoaoft t ottnrc yir,rtl  thhuhoeihlott aayi aeoseusneyr etnr nsnpne neey awvcoeteteieecexd wnaeelv dhdnndhst ahotd leooiiii e etnauhooignnnnnnalslcotgilng eiiiiito,yar,enl,aong
+Sentence 0, len = 30, Sleeping beauty is oasr,ng tef
+Sentence 0, len = 90, Sleeping beauty is oasr,ng tefuti an antto  ethatn naldongiont arontitome oe nn eoneuesnira afsooitvpe n  en,pwntendd eidaowtao aee rcaeang nnnynnwnv ioomsrtetooo ooooiitnd,eyid mdslfdnnld ie   nltaiseuiite ttsa  oytkn dttledahmmiwwlehedtoiied yeoan ieded ancsr toapr tnd   ande ooo r,otheea  nd rofdnwe whersst eioioeeeilmhine e tvtncns nny engswvbrerieimwoi wloetoerid nsd arnahesv rsnnetoiianeite  eoeooistnndttdn da lvsunsereear  ewiycieimeel,dtteo len,hfdd dts  iemnfoag  ueewoiitwtdeiorret nsr rnluoeianneelitoioaeiystdnltidssnyrnnrsn eaoeihnet o oieo, tnrnsniesswntnddn aheeiwens  e hieeetne psart a lpasf s  ddioce ongiacsotowwiacne af enle mhr  nlh yontavoystoaow eutoou,olel, aotr tvt rks  s y anvheaheiain t ewoan iirri rln wownerk ans iatoyetiud d,sondwantine,hns to  oeeaydecgs    ao twnsrttoreu a   ndahoe ohimk pwngwweireustn nbioeieiiiln dp eoaoytnsnsnsss,aoewnptn,he        drsl a i  rw    TTTrieet lms eiw   oELemc  aiatdvt o  nc  auutsrdileihntwouw n t  yinysnie o latowrwtogg   nstfmiyhr yhedeettwoiruae  ewoe     eoun ltsa lelsotK  apsdfioivwia tmhyo  poeusnsennlthoe ufweosl e ddee  ustsl rntywawryspttn a eieii hy e  liiii lvgsdnai aabwivtnntiii eetndnrlaneeee lnlant eeiiyteddsntooytgeovtsn hd e  e d,heenea  terwvbwawr  df dttwhrmfeuir eftitwoeiieesudptsonf eeeusnl strga  m uovt n eetooeikwwutnteetowvt odrn aieee rren e tn eit d  stooasanwritnghaowttaodr,nthegheettn eenn e  s retdreeetnttotvwweauauioa   eranheiodttttlnsw  lencadtn himeee it itgeveeotim ,tntn wn elerrnhneto oeithownsvsaiaer nmn nh u   e nnlsswoaeaoiopf waweiit oor,cnnueetas lnnhofd  e essd,ntoioyiufea lplcie  ernnlng dttoaeensotaeiiittooiimt s  rhlsnsl ermss  ttwwoay   yanei  owhieerr,w  ord nf re lv  y  t n eooiwoawoewwot haoovt
 Step = 8441
-Sentence 0, len = 30, Sleeping beauty is I will give
-Sentence 0, len = 90, Sleeping beauty is I will give you fat, and let out the third gave it
-and four dance with you?’ Next they did
+Sentence 0, len = 30, Sleeping beauty is Lif I cean 
+Sentence 0, len = 90, Sleeping beauty is Lif I cean afway for you.’ The man went on it.’ So he
+came to the wind this time outen Sma

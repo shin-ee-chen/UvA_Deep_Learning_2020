@@ -244,7 +244,7 @@ if __name__ == "__main__":
     # params for sequence generation
     parser.add_argument('--gen_sentence_len', type=int, default=30,
                         help='Length of generated sequences')
-    parser.add_argument('--gen_sentence_num', type=int, default=8,
+    parser.add_argument('--gen_sentence_num', type=int, default=5,
                         help='Number of sentence generated each time')
     parser.add_argument('--temperature', type=float, default= 0.5,
                         help = 'tempaerature parameter for softmax')

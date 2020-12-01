@@ -1,92 +1,57 @@
 Step = 2812
-Sentence 0, len = 30, ******************************
-Sentence 0, len = 90, *******************************************************************************************
-Sentence 1, len = 30, UNDEL
-
-There was the stood the
-Sentence 1, len = 90, UNDEL
-
-There was the stood the stood the stood the stood the stood the stood the stood the 
-Sentence 2, len = 30, reath the stood the stood the 
-Sentence 2, len = 90, reath the stood the stood the stood the stood the stood the stood the stood the stood the s
-Sentence 3, len = 30, 2. Then the stood the stood th
-Sentence 3, len = 90, 2. Then the stood the stood the stood the stood the stood the stood the stood the stood the
-Sentence 4, len = 30, g and said the stood the stood
-Sentence 4, len = 90, g and said the stood the stood the stood the stood the stood the stood the stood the stood 
-Sentence 5, len = 30, Then the stood the stood the s
-Sentence 5, len = 90, Then the stood the stood the stood the stood the stood the stood the stood the stood the st
-Sentence 6, len = 30, Cat she said the stood the sto
-Sentence 6, len = 90, Cat she said the stood the stood the stood the stood the stood the stood the stood the stoo
-Sentence 7, len = 30, the stood the stood the stood 
-Sentence 7, len = 90, the stood the stood the stood the stood the stood the stood the stood the stood the stood t
+Sentence 0, len = 30, 988888888888888888888888888888
+Sentence 0, len = 90, 9888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+Sentence 1, len = 30, ch and said, ‘I will not was a
+Sentence 1, len = 90, ch and said, ‘I will not was a little beautiful soon as he was a little beautiful soon as h
+Sentence 2, len = 30, ” and the forest to the word w
+Sentence 2, len = 90, ” and the forest to the word what he was a little beautiful soon as he was a little beautif
+Sentence 3, len = 30, the word who was to the word w
+Sentence 3, len = 90, the word who was to the word what he was a little beautiful soon as he was a little beautif
+Sentence 4, len = 30, VER THE FOUNDEN AND THE THE TH
+Sentence 4, len = 90, VER THE FOUNDEN AND THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE THE
 Step = 5625
-Sentence 0, len = 30, n the second of the soldier wa
-Sentence 0, len = 90, n the second of the soldier was a little great came to the world was a little great came to
-Sentence 1, len = 30, ut the second of the soldier w
-Sentence 1, len = 90, ut the second of the soldier was a little great came to the world was a little great came t
-Sentence 2, len = 30, I will give you a little man w
-Sentence 2, len = 90, I will give you a little man was a little great come and said, ‘I will give you a little ma
-Sentence 3, len = 30, OR AND THE SAUSAGE
-      THE F
-Sentence 3, len = 90, OR AND THE SAUSAGE
-      THE FOX AND THE SAUSAGE
-      THE FOX AND THE SAUSAGE
-      THE FO
-Sentence 4, len = 30, The man was so so hard and sai
-Sentence 4, len = 90, The man was so so hard and said: ‘I have not see the second of the soldier said, ‘I will gi
-Sentence 5, len = 30, -tree, and said, ‘I will give 
-Sentence 5, len = 90, -tree, and said, ‘I will give you a little man was a little great come and said, ‘I will gi
-Sentence 6, len = 30, 6.  The wood, and said, ‘I wil
-Sentence 6, len = 90, 6.  The wood, and said, ‘I will give you a little man was a little great come and said, ‘I 
-Sentence 7, len = 30, $2100 a great come and said, ‘
-Sentence 7, len = 90, $2100 a great come and said, ‘I will give you a little man was a little great come and said
+Sentence 0, len = 30, be to the work was to be a fin
+Sentence 0, len = 90, be to the work was to be a fine that he was the soldier said to the work was to be a fine t
+Sentence 1, len = 30, My well and said to the work w
+Sentence 1, len = 90, My well and said to the work was to be a fine that he was the soldier said to the work was 
+Sentence 2, len = 30, , and said to the work was to 
+Sentence 2, len = 90, , and said to the work was to be a fine that he was the soldier said to the work was to be 
+Sentence 3, len = 30, I will be a little man was the
+Sentence 3, len = 90, I will be a little man was the soldier said to the work was to be a fine that he was the so
+Sentence 4, len = 30, f the work was to be a fine th
+Sentence 4, len = 90, f the work was to be a fine that he was the soldier said to the work was to be a fine that 
 Step = 8438
-Sentence 0, len = 30, s the second of the soldier wa
-Sentence 0, len = 90, s the second of the soldier was so sorrowful that he was a little tailor was all the second
-Sentence 1, len = 30, 1.  THE WILLOW-WREN AND THE SA
-Sentence 1, len = 90, 1.  THE WILLOW-WREN AND THE SAUSAGE
-
-There was a little tailor was all the second of the wa
-Sentence 2, len = 30, #I shall be a little man who w
-Sentence 2, len = 90, #I shall be a little man who was to be a stars of the soldier was a little man who had been
-Sentence 3, len = 30, Carter thanked the stars of th
-Sentence 3, len = 90, Carter thanked the stars of the world was a little tailor was all the second of the soldier
-Sentence 4, len = 30, When the woman was the bear wa
-Sentence 4, len = 90, When the woman was the bear was so sorrowful that he was a little tailor was all the second
-Sentence 5, len = 30, Life was a little man who had 
-Sentence 5, len = 90, Life was a little man who had been all the second of the soldier was so sorrowful that he w
-Sentence 6, len = 30, ) and said, ‘I will show her h
-Sentence 6, len = 90, ) and said, ‘I will show her head and the beautiful princess were so sorrowful that he was 
-Sentence 7, len = 30, ’ ‘What a short that it was to
-Sentence 7, len = 90, ’ ‘What a short that it was to be a stars of the soldier was a little man who had been all 
+Sentence 0, len = 30, ; and the man was a little man
+Sentence 0, len = 90, ; and the man was a little man was a little man was a little man was a little man was a lit
+Sentence 1, len = 30, When the man was a little man 
+Sentence 1, len = 90, When the man was a little man was a little man was a little man was a little man was a litt
+Sentence 2, len = 30, You may go to the window and s
+Sentence 2, len = 90, You may go to the window and said, ‘I will give you will not know what he had been the worl
+Sentence 3, len = 30, (what was to see him to the wi
+Sentence 3, len = 90, (what was to see him to the window and said, ‘I will give you will not know what he had bee
+Sentence 4, len = 30, Queen to the window and said, 
+Sentence 4, len = 90, Queen to the window and said, ‘I will give you will not know what he had been the world was
 Step = 8441
-Sentence 0, len = 30, pon him all the princess, and 
-Sentence 0, len = 90, pon him all the princess, and went home to be a stire and dressed the king came and the gir
-Sentence 1, len = 30, me a mother will see the wood 
-Sentence 1, len = 90, me a mother will see the wood came to the water, and said: ‘Here the shoes to be all the st
-Sentence 2, len = 30, ******
-This work to the finger
-Sentence 2, len = 90, ******
-This work to the fingers were sticks who had been so much a little of the bear which
-Sentence 3, len = 30, //wwwware.’
-
-‘Goodbye, Hans.’ 
-Sentence 3, len = 90, //wwwware.’
-
-‘Goodbye, Hans.’ Hans when he had said to her form one of the horse was missed
-Sentence 4, len = 30, You will see my hand, and the 
-Sentence 4, len = 90, You will see my hand, and the young man see you to go on, and wished him so beautiful for s
-Sentence 5, len = 30, Qoow it many form to the track
-Sentence 5, len = 90, Qoow it many form to the track of them away with some of what he will be so beautiful as we
-Sentence 6, len = 30, we will be to be a son and see
-Sentence 6, len = 90, we will be to be a son and see you in the countryman went home and said: ‘Now I have come o
-Sentence 7, len = 30, $1]2
-a daughter could not last
-Sentence 7, len = 90, $1]2
-a daughter could not last the beautiful princess, and said, ‘What do you must fine see
+Sentence 0, len = 30, _.’ ‘All listen man took a res
+Sentence 0, len = 90, _.’ ‘All listen man took a restrothed the water, and the miller said to her finger to the l
+Sentence 1, len = 30, My son was a long the cat was 
+Sentence 1, len = 90, My son was a long the cat was so country, and then the cook, he said the princess was so th
+Sentence 2, len = 30, Now the eldest silver have sha
+Sentence 2, len = 90, Now the eldest silver have shall be found the tailor was asleep, and the
+shoes were so that
+Sentence 3, len = 30, ) that he was going to the sea
+Sentence 3, len = 90, ) that he was going to the sea, and could not do you will not know where she was to be give
+Sentence 4, len = 30, ZE
+LIADDITE OR THUS
+      CLEV
+Sentence 4, len = 90, ZE
+LIADDITE OR THUS
+      CLEVER GRETEL
+      THE FOUR CLEVER BROTHERS
+     THE SILBIRD ICH
 Step = 8441
-Sentence 0, len = 30, Sleeping beauty is oafp ng aef
-Sentence 0, len = 90, Sleeping beauty is oafp ng aefuti tn tnr eooitnv leoohoahoiindmt eeaigtdersernt lootaccnhhoe tdniioiokcbeoiyouswooennnnn eudln,wr erddetieitat yt aytneeeninvchlioohtn hirds ngeheycnd, ltimsl ooirtd hie aoalp ytfdn hioimstntt  tohieetimnree o aooo  nv  netiadtfmltnnbwoet oe nleooey oieimtctfddousnds tfrnnooh ueans ei thyeeetm.ondst tntmhi s.. e r’  athoteenwi  Iawoss s eu dd asmhslart toiaghoewn oi,inkyoh cce u eetft ng, wetooaynhnd u toi ah t kt  t etnsh cagtoooiet hiato etomesnnnts oimtenwaco    iir tfr  dtirhnm   nn moeemooale  eo  ooaarl erttodiovtmwrdttsybnoaamaoneheiyeee ioacttsnn stdn,dd.tn rtia iioooo   i’  teadlonnndnrto n s oar ywg i,ey ntoaiifr oooeht’  woi tln etfdnde sw ionmheeyacoeoidtoawnn eorl rtrsnn ert  itnts boae eetyeaoon eu tltr tnd  ttnd oathhehothoeophioeofd eerel  usnpennsnfetvcndyo pe.lrteteucceheemnorr’ oudhdptossdd. t ossft ueetrtiie ‘hwne ieaps  iwmndtPoa ssnsd! oot at hootoaoeto’Ifrhin timd,nlns.nssoaengthlee  ye ’  eol  eh,y,stnotwllivtlofvt  ’ iat eyeneeyw e i rlnl aaes dd eaabnmoaiyinss aoiwatloeoutn,ng etntteyeywdns    etaeeyar,d,  ittpd atir  rd   a t ouatn netooaaflrsriftl  ooa  ntt yotoni yt udto oiitou n nwoaopge mnrt nswodiirtdaedoyiaatowemdnn yoys n nntenndblootou. totoourgieyewkhns’Ih hnns enr diee e ltsaoewwndaoadd tnsitttnsied nnt,rooo dieee lt toou  wrnwasd  toaoh   cnhoeertranh tnet  ooacmd oanceoooe ooudthoiofdde om.dtfdsneeunn elnmfe  woe isstditneeaodinirtit iaony rdlnsngli nionrn  woeii ouinoimn iibpiolnnofttgnnmeant enn,tetf aeeeortt taoi h hoy v dnshiohikooiyim,teyiytennenendneny e ,ns,dg dtdt,edt ovd e   eooaiu d eifeioapi andtnrwowageennl!nond hoiamfre,r iy  w  timst,oaa  tn w inwhre y  rtw ootiittieonwot oaiandhnnyandn, ofifdnrt e i ncso arfneleeita
+Sentence 0, len = 30, Sleeping beauty is oewp ng oeh
+Sentence 0, len = 90, Sleeping beauty is oewp ng oehuti tn tnlnetoeofdos oohoohoeiahrsn  u,wftirsirfnteo,it s aoenetoeiehdn nuahi nsddsrsnn  etomr nooteeoaeoia vcn eaotkhdnnldnnrlouiovcnseieeeeeeeeawddnehetrnsrdnnnnnrieeisidwie,eeieeeeicdndtde nr  rnnr rnh eeaomcoiw eiiioeioonprnsamnaavtnnnsnnn aoitiistgeeeiieiiiwnnsennhre rnnnnnnn  eeltiooateoeiieeet a s ondt,dn nnnnneonltwncee  eaooeeeecey  ih do vtnnnnnnun,a s towneuoiieeeti ltawh a rsnnnnnnhnoiat eanloaeaoeeeiitstewvc ywdntnlndnne orieaaoieeeiyeeeesof nstnnsdnnn rndn n toieiiieeiiiooeitewh cnnnnndnnnnnsnhn iaaoeeeeeeieeeeiieondrnsnnnnnn rnnnnnn  oitiiieeeweoeeeeeo nn ontnrn rnrrnnnniooof ieaetoaieiieegnnr on rnerttsnn di ieof toiaoaa iiwodwn n oh cnntrlndnrli aomneaooehyaeeeaatwnnsestnnsi lsldllee iel eiiieaoiyey rnwn dsngnnrrnsod,teoeetowoeieeeitn  artrnhrnrrnsnnn ea le yioeeioe iiiwvcyoasonnsnnnstndnaehimt, ,i,iiieeiaitdensh a t nnnnrnnthlr eetnlrwoieiiioeiyeonp eyeirnsnnnnsn rn ltnesneeeiiieeioooaiaiasidllnnnnrnnnrtstrti-eyyiieeeeieea aeeosme nd dn nnnttndnnsantoewoewooeeoeeeiertsns lv rdrnnsnnnn h,i aieioeeeaeiieewo nsndsnnnnnldnn rinaoioewiiieeeieewodgtnsnsisnnnrnnnrenli i i otieeieeeis ynansnllhms nnn n toit ,iyiie aooewowh cyo tonnnannnnariiaaiuwo eeitgoeiteonrslserannn etsn dn i,y lsgtoetvciiooewt oaooeinvieeannddehantndnngigr ltieemiltieeieenheaialrneny odnnnntirrrt ees  tnleeeeeteyyeonp.o heu.pnln d  dnse rgo r’eiyetowmieedteotoasnnortrnatd  urn mt  ews iitelo p iaoht v  tndhd worinrni,weo heeieahrkneeec artwa pnnl oeesmnlwne eybroeeofnn aiyeedonelatsnn eiond ds u dyte eitvtnl toiopsi hrantheeiawh gu, oaaakg ir,nreiaoe arlrleeano  idgtnstnoseyanl ui teeii aits, ltyopsshrtnnwrrh  aih n   ee iiieoeo lreoow  apwsdnnnnntiiamm,a npaieiiieeeonree rteurrlnnnr dn id
 Step = 8441
-Sentence 0, len = 30, Sleeping beauty is one coming 
-Sentence 0, len = 90, Sleeping beauty is one coming and began to the beat that the stars of the window let one of the child, and do
+Sentence 0, len = 30, Sleeping beauty is Ashputtel w
+Sentence 0, len = 90, Sleeping beauty is Ashputtel was seen my fame and the old woman, ‘that he went to the third to the green his 
