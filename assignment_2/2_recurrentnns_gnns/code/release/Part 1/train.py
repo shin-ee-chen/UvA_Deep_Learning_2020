@@ -54,7 +54,7 @@ def train(config):
 
     if not os.path.exists(config.summary_path):
         os.makedirs(config.summary_path)
-    writer = SummaryWriter(config.summary_path)
+    # writer = SummaryWriter(config.summary_path)
 
     # Initialize the device which to run the model on
     device = torch.device(config.device)
@@ -130,6 +130,10 @@ def train(config):
     loss_function =  torch.nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=config.learning_rate)
 
+    steps = []
+    losses = []
+    accuracys = []
+
     for step, (batch_inputs, batch_targets) in enumerate(data_loader):
 
         # Only for time measurement of step through network
@@ -171,22 +175,22 @@ def train(config):
         if step % 60 == 0:
             # writer.add_scalar("{}".format(config.model_type), loss, step)
             # writer.add_scalar("{}".format(config.model_type), accuracy)
-            with open("{}/results/{}_accuracy_{}.txt".format(BASE_DIR, config.model_type, config.random_seed),"a") as out1:
-                out1.write("{},{}\n".format(step, accuracy))
-                out1.close()
+            # with open("{}/results/{}_accuracy_{}.txt".format(BASE_DIR, config.model_type, config.random_seed),"a") as out1:
+            #     out1.write("{},{}\n".format(step, accuracy))
+            #     out1.close()
 
-            with open("{}/results/{}_loss_{}.txt".format(BASE_DIR, config.model_type,config.random_seed),"a") as out2:
-                out2.write("{},{}\n".format(step, loss))
-                out2.close()
-            
+            # with open("{}/results/{}_loss_{}.txt".format(BASE_DIR, config.model_type,config.random_seed),"a") as out2:
+            #     out2.write("{},{}\n".format(step, loss))
+            #     out2.close()
+            print("{},{},{}".format(step, accuracy, loss) )
 
-            print("[{}] Train Step {:04d}/{:04d}, Batch Size = {}, \
-                   Examples/Sec = {:.2f}, "
-                  "Accuracy = {:.2f}, Loss = {:.3f}".format(
-                    datetime.now().strftime("%Y-%m-%d %H:%M"), step,
-                    config.train_steps, config.batch_size, examples_per_second,
-                    accuracy, loss
-                    ))
+            # print("[{}] Train Step {:04d}/{:04d}, Batch Size = {}, \
+            #        Examples/Sec = {:.2f}, "
+            #       "Accuracy = {:.2f}, Loss = {:.3f}".format(
+            #         datetime.now().strftime("%Y-%m-%d %H:%M"), step,
+            #         config.train_steps, config.batch_size, examples_per_second,
+            #         accuracy, loss
+            #         ))
 
         # Check if training is finished
         if step == config.train_steps:
@@ -212,7 +216,7 @@ if __name__ == "__main__":
     parser.add_argument('--model_type', type=str, default='LSTM',
                         choices=['LSTM', 'biLSTM', 'GRU', 'peepLSTM'],
                         help='Model type: LSTM, biLSTM, GRU or peepLSTM')
-    parser.add_argument('--input_length', type=int, default=10,
+    parser.add_argument('--input_length', type=int, default=20,
                         help='Length of an input sequence')
     parser.add_argument('--input_dim', type=int, default=1,
                         help='Dimensionality of input sequence')

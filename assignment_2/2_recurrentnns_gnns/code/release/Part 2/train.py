@@ -152,14 +152,6 @@ def inference(step, model, config, dataset, sampling = 'greedy', gen_input = Fal
         gen_chars = dataset.convert_to_ix(config.gen_input)
         gen_chars = torch.LongTensor(gen_chars).view(-1, 1).to(config.device)
         input_x = gen_chars
-        # probs, model.prev_state = model(gen_chars)
-        # if sampling == "greedy":
-        #     predictions = torch.argmax(probs, dim=2)
-        # else:
-        #     probs = torch.nn.functional.softmax(probs * config.temperature, dim = 2) 
-        #     predictions = torch.multinomial(torch.squeeze(probs), 1).view(1,-1)
-        # gen_chars = torch.cat((gen_chars, predictions))
-        # input_x = predictions
 
     else:
         gen_chars = random.sample(range(0,dataset.vocab_size),config.gen_sentence_num)
