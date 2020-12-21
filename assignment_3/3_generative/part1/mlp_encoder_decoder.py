@@ -36,7 +36,19 @@ class MLPEncoder(nn.Module):
         # For an intial architecture, you can use a sequence of linear layers and ReLU activations.
         # Feel free to experiment with the architecture yourself, but the one specified here is 
         # sufficient for the assignment.
-        raise NotImplementedError
+        # raise NotImplementedError
+        self.input_dim = input_dim
+        self.mlp_layers = nn.ModuleList()
+        
+        input_size = input_dim
+        for hidden_dim in hidden_dims:
+            self.mlp_layers.append(nn.Linear(input_size, hidden_dim))
+            self.mlp_layers.append(nn.ReLU())
+            input_size = hidden_dim
+        
+        self.mean_linear = nn.Linear(input_size, z_dim)
+        self.log_std_linear = nn.Linear(input_size, z_dim)
+
 
     def forward(self, x):
         """
@@ -49,9 +61,13 @@ class MLPEncoder(nn.Module):
         """
 
         # Remark: Make sure to understand why we are predicting the log_std and not std
-        mean = None
-        log_std = None
-        raise NotImplementedError
+        out = x.view(-1, self.input_dim)
+        
+        for layer in self.mlp_layers:
+            out = layer(out)
+        mean = self.mean_linear.forward(out)
+        log_std = self.log_std_linear.forward(out)
+        # raise NotImplementedError
         return mean, log_std
 
 
@@ -73,7 +89,15 @@ class MLPDecoder(nn.Module):
         # For an intial architecture, you can use a sequence of linear layers and ReLU activations.
         # Feel free to experiment with the architecture yourself, but the one specified here is 
         # sufficient for the assignment.
-        raise NotImplementedError
+        self.mlp_layers = nn.ModuleList()
+        input_size = z_dim
+        for hidden_dim in hidden_dims:
+            self.mlp_layers.append(nn.Linear(input_size, hidden_dim))
+            self.mlp_layers.append(nn.ReLU())
+            input_size = hidden_dim
+        
+        self.x_linear = nn.Linear(input_size, 
+                                  output_shape[0] * output_shape[1] * output_shape[2])
 
     def forward(self, z):
         """
@@ -85,8 +109,13 @@ class MLPDecoder(nn.Module):
                 Shape: [B,output_shape[0],output_shape[1],output_shape[2]]
         """
 
-        x = None
-        raise NotImplementedError
+        out = z
+        for layer in self.mlp_layers:
+            out = layer(out)
+        x = self.x_linear(out).view(-1, self.output_shape[0], 
+                                    self.output_shape[1], self.output_shape[2])
+
+        # raise NotImplementedError
         return x
 
     @property
@@ -96,3 +125,12 @@ class MLPDecoder(nn.Module):
         Might be helpful in other functions.
         """
         return next(self.parameters()).device
+
+
+# if __name__ == '__main__':
+#     B, C,H,W = 3, 1, 28, 28
+#     z = torch.rand([3 , 20])
+#     # print(x.shape)
+#     decoder = MLPDecoder(20,[16],[1,28,28])
+#     y = decoder.forward(z)
+#     print(y.shape)

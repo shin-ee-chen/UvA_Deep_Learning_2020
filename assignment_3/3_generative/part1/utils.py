@@ -31,9 +31,9 @@ def sample_reparameterize(mean, std):
         z - A sample of the distributions, with gradient support for both mean and std. 
             The tensor should have the same shape as the mean and std input tensors.
     """
-
-    z = None
-    raise NotImplementedError
+    epsilon = torch.randn(mean.shape)
+    z = mean + std * epsilon
+    # raise NotImplementedError
     return z
 
 
@@ -93,3 +93,9 @@ def visualize_manifold(decoder, grid_size=20):
     raise NotImplementedError
 
     return img_grid
+
+
+if __name__ == '__main__':
+    # x = torch.normal(0, 1, size = (1)
+    x = torch.randn(1)
+    print(x + 10)
