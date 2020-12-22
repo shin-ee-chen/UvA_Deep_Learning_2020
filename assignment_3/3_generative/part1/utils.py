@@ -96,12 +96,15 @@ def visualize_manifold(decoder, grid_size=20):
     # for i in range(grid_size):
     #     z[i] = norm.ppf((i+0.5) / (grid_size+1))
     # mean = torch.sigmoid(decoder(z))
+    # https://www.quora.com/How-can-I-draw-a-manifold-from-a-variational-autoencoder-in-Keras
+    
+    z = torch.zeros([grid_size, 2]) #not sure the dimension is right, z should be[Batch, 2]
     for i in range(grid_size):
         for j in range(grid_size):
-            z = torch norm.ppf((i+0.5) / (grid_size+1)),
-                norm.ppf((j+0.5) / (grid_size+1))
-
-
+           z[i][0] = norm.ppf((i+0.5) / (grid_size+1))
+           z[i][1] = norm.ppf((j+0.5) / (grid_size+1))
+    print(z)
+    img_grid = None
     return img_grid
 
 if __name__ == '__main__':
@@ -110,4 +113,7 @@ if __name__ == '__main__':
     # x = x.reshape(3,-1)
     # print(x.reshape(3,-1))
     # print(torch.sum(x, dim = 1).shape)
-    print(torch.tensor([1,2]).shape)
+    x = [1,1,2,2,3,3]
+    visualize_manifold(10, grid_size=3)
+    print(z)
+    # print(torch.tensor(x).reshape(3,2))
