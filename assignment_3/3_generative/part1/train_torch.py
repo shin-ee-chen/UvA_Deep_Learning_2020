@@ -74,7 +74,7 @@ class VAE(nn.Module):
         mean, log_std = self.encoder(imgs)
         z = sample_reparameterize(mean, torch.exp(log_std), self.device)
         x_hat = self.decoder(z)
-
+        
         #note: *_with_logits = sigmoid(x_hat) + binary_cross_entropy
         # my reduction is none here because the input to bpd is [batch_size]
         L_rec = nn.functional.binary_cross_entropy_with_logits(x_hat, imgs, reduction='none')

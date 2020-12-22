@@ -109,10 +109,15 @@ class GAN(nn.Module):
             logging_dict - Dictionary of string to Tensor that should be added
                            to our TensorBoard logger
         """
-
-        loss = None
+        # true_labels = torch.ones(x_real.shape[0], 1)
+        # label smoothing
+        true_labels = torch.from_numpy(np.random.uniform(0.7, 1.2, 
+                      [x_real.shape[0],1])).to(self.device)
+        G_fake = self.sample(x_real.shape[0])
+        D_fake = self.discriminator(G_fake)
+        loss = nn.functional.binary_cross_entropy_with_logits(D_fake, true_labels)
         logging_dict = {"loss": loss}
-        raise NotImplementedError
+        # raise NotImplementedError
 
         return loss, logging_dict
 
@@ -135,9 +140,18 @@ class GAN(nn.Module):
 
         # Remark: there are more metrics that you can add. 
         # For instance, how about the accuracy of the discriminator?
-        loss = None
+        true_labels = torch.from_numpy(np.random.uniform(0.7, 1.2, 
+                      [x_real.shape[0],1])).to(self.device)
+        fake_labels = torch.from_numpy(np.random.uniform(0, 0.3, 
+                      [x_real.shape[0],1])).to(self.device)
+        D_real = self.discriminator(x_real)
+        D_fake = self.discriminator(self.sample(x_real.shape[0]))
+        loss_real = nn.functional.binary_cross_entropy_with_logits(D_real, true_labels)
+        loss_fake = nn.functional.binary_cross_entropy_with_logits(D_fake, fake_labels)
+        loss = (loss_real + loss_fake) / 2
+
         logging_dict = {"loss": loss}
-        raise NotImplementedError
+        # raise NotImplementedError
 
         return loss, logging_dict
 
@@ -166,7 +180,13 @@ def generate_and_save(model, epoch, summary_writer, batch_size=64):
     # - Use torchvision function "make_grid" to create a grid of multiple images
     # - Use torchvision function "save_image" to save an image grid to disk
 
-    raise NotImplementedError
+    # raise NotImplementedError
+    img_samples = model.sample(batch_size)
+    log_dir = summary_writer.log_dir
+    samples = make_grid(img_samples)
+    summary_writer.add_image(f"samples at epoch={epoch}", samples)
+    save_image(samples, os.path.join(log_dir, f"samples_{epoch}.png"))
+
 
 
 def interpolate_and_save(model, epoch, summary_writer, batch_size=64,
@@ -221,9 +241,20 @@ def train_gan(model, train_loader,
 
         # Generator update
         # raise NotImplementedError
+        optimizer_gen.zero_grad()
+        gen_loss, gen_logging_dict = model.generator_step(imgs[0])
+        logger_gen.add_values(gen_logging_dict)
+        gen_loss.backward()
+        optimizer_gen.step()
 
         # Discriminator update
         # raise NotImplementedError
+        optimizer_disc.zero_grad()
+        disc_loss, disc_logging_dict = model.discriminator_step(imgs[0])
+        logger_disc.add_values(disc_logging_dict)
+        disc_loss.backward()
+        optimizer_disc.step()
+        
 
 
 def seed_everything(seed):
@@ -269,9 +300,11 @@ def main(args):
     # Create two separate optimizers for generator and discriminator
     # You can use the Adam optimizer for both models.
     # It is recommended to reduce the momentum (beta1) to e.g. 0.5
-    optimizer_gen = None
-    optimizer_disc = None
-    raise NotImplementedError
+    optimizer_gen = torch.optim.Adam(model.generator.parameters(), 
+                                     lr = args.lr, betas= (0.5, 0.999))
+    optimizer_disc = torch.optim.Adam(model.discriminator.parameters(), 
+                                     lr = args.lr, betas= (0.5, 0.999))
+    # raise NotImplementedError
 
     # TensorBoard logger
     # See utils.py for details on "TensorBoardLogger" class
@@ -280,7 +313,7 @@ def main(args):
     logger_disc = TensorBoardLogger(summary_writer, name="discriminator")
 
     # Initial generation before training
-    generate_and_save(model, 0, summary_writer, args.batch_size)
+    generate_and_save(model, 0, summary_writer)
 
     # Training loop
     print(f"Using device {device}")

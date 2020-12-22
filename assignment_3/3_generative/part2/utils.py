@@ -68,3 +68,9 @@ class TensorBoardLogger(object):
                                                global_step=self.global_step)
                 self.value_dict[key] = 0
                 self.steps[key] = 0
+
+import torch
+import numpy as np
+if __name__ == '__main__':
+    x = np.random.uniform(0, 0.3, [3,1])
+    print(torch.from_numpy(np.random.uniform(0, 0.3, [3,1])))
