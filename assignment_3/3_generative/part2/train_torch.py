@@ -69,8 +69,10 @@ class GAN(nn.Module):
         Outputs:
             x - Generated images of shape [B,C,H,W]
         """
-        x = None
-        raise NotImplementedError
+        
+        z = torch.randn([batch_size, self.z_dim])
+        x = self.generator.forward(z)
+        # raise NotImplementedError
         return x
 
     @torch.no_grad()
@@ -218,10 +220,10 @@ def train_gan(model, train_loader,
         #  of the respective step functions)
 
         # Generator update
-        raise NotImplementedError
+        # raise NotImplementedError
 
         # Discriminator update
-        raise NotImplementedError
+        # raise NotImplementedError
 
 
 def seed_everything(seed):

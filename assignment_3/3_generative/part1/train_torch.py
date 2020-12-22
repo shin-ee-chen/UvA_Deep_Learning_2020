@@ -196,8 +196,8 @@ def train_vae(model, train_loader, optimizer):
         average_rec_loss += L_rec.item()
         average_reg_loss += L_reg.item()
         count+=1
-        # if count % 50 == 0:
-        #     print(f"loss = {bpd.item()}")
+        if count % 50 == 0:
+            print(f"L_rec: {L_rec}, L_reg: {L_reg}, bpd: {bpd}")
 
     average_bpd /= len(train_loader)
     average_rec_loss /= len(train_loader)
@@ -265,7 +265,8 @@ def main(args):
                           if args.progress_bar else train_loader)
         epoch_train_bpd, train_rec_loss, train_reg_loss = train_vae(
             model, train_iterator, optimizer)
-
+        
+        # print(f"Train BPD: {epoch_train_bpd}")
         # Validation epoch
         val_iterator = (tqdm(val_loader, desc="Testing", leave=False)
                         if args.progress_bar else val_loader)
@@ -299,7 +300,7 @@ def main(args):
     test_loader = (tqdm(test_loader, desc="Testing", leave=False)
                    if args.progress_bar else test_loader)
     test_bpd, _, _ = test_vae(model, test_loader)
-    print(f"Test BPD: {test_bpd}")
+    # print(f"Test BPD: {test_bpd}")
     summary_writer.add_scalars("BPD", {"test": test_bpd}, best_epoch_idx)
 
     # Manifold generation
