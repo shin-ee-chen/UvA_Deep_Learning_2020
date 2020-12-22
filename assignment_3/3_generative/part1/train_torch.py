@@ -72,7 +72,7 @@ class VAE(nn.Module):
         # Hint: implement the empty functions in utils.py
         imgs = imgs.to(self.device)
         mean, log_std = self.encoder(imgs)
-        z = sample_reparameterize(mean, torch.exp(log_std))
+        z = sample_reparameterize(mean, torch.exp(log_std), self.device)
         x_hat = self.decoder(z)
 
         #note: *_with_logits = sigmoid(x_hat) + binary_cross_entropy

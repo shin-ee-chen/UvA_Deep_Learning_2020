@@ -20,7 +20,7 @@ import numpy as np
 from scipy.stats import norm
 
 
-def sample_reparameterize(mean, std):
+def sample_reparameterize(mean, std, device = "cpu"):
     """
     Perform the reparameterization trick to sample from a distribution with the given mean and std
     Inputs:
@@ -31,7 +31,7 @@ def sample_reparameterize(mean, std):
         z - A sample of the distributions, with gradient support for both mean and std. 
             The tensor should have the same shape as the mean and std input tensors.
     """
-    epsilon = torch.randn(mean.shape)
+    epsilon = torch.randn(mean.shape).to(device)
     z = mean + std * epsilon
     # raise NotImplementedError
     return z
@@ -92,19 +92,22 @@ def visualize_manifold(decoder, grid_size=20):
 
     # img_grid = None
     # raise NotImplementedError
-    z = torch.zeros(grid_size)
+    # z = torch.zeros(grid_size)
+    # for i in range(grid_size):
+    #     z[i] = norm.ppf((i+0.5) / (grid_size+1))
+    # mean = torch.sigmoid(decoder(z))
     for i in range(grid_size):
-        z[i] = norm.ppf((i+0.5) / (grid_size+1))
-    mean = torch.sigmoid(decoder(z))
-
+        for j in range(grid_size):
+            z = torch norm.ppf((i+0.5) / (grid_size+1)),
+                norm.ppf((j+0.5) / (grid_size+1))
 
 
     return img_grid
 
 if __name__ == '__main__':
-    x = torch.randn(3, 2, 1, 4)
-    print(x)
-    x = x.reshape(3,-1)
-    print(x.reshape(3,-1))
-    print(torch.sum(x, dim = 1).shape)
-
+    # x = torch.randn(3, 2, 1, 4)
+    # print(x)
+    # x = x.reshape(3,-1)
+    # print(x.reshape(3,-1))
+    # print(torch.sum(x, dim = 1).shape)
+    print(torch.tensor([1,2]).shape)
