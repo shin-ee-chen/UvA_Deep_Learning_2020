@@ -48,9 +48,10 @@ def KLD(mean, log_std):
         KLD - Tensor with one less dimension than mean and log_std (summed over last dimension).
               The values represent the Kullback-Leibler divergence to unit Gaussians.
     """
-
-    KLD = None
-    raise NotImplementedError
+    
+    log_var = 2 * log_std
+    KLD =  torch.sum(0.5 * (torch.exp(log_var) + mean * mean - 1 - log_var),dim = -1)
+    # raise NotImplementedError
     return KLD
 
 
@@ -63,8 +64,8 @@ def elbo_to_bpd(elbo, img_shape):
     Outputs:
         bpd - The negative log likelihood in bits per dimension for the given image.
     """
-    bpd = None
-    raise NotImplementedError
+    bpd = elbo * np.log2(np.e) / (img_shape[1]* img_shape[2]* img_shape[3])
+    # raise NotImplementedError
     return bpd
 
 
@@ -89,13 +90,21 @@ def visualize_manifold(decoder, grid_size=20):
     # - You can use torchvision's function "make_grid" to combine the grid_size**2 images into a grid
     # - Remember to apply a sigmoid after the decoder
 
-    img_grid = None
-    raise NotImplementedError
+    # img_grid = None
+    # raise NotImplementedError
+    z = torch.zeros(grid_size)
+    for i in range(grid_size):
+        z[i] = norm.ppf((i+0.5) / (grid_size+1))
+    mean = torch.sigmoid(decoder(z))
+
+
 
     return img_grid
 
-
 if __name__ == '__main__':
-    # x = torch.normal(0, 1, size = (1)
-    x = torch.randn(1)
-    print(x + 10)
+    x = torch.randn(3, 2, 1, 4)
+    print(x)
+    x = x.reshape(3,-1)
+    print(x.reshape(3,-1))
+    print(torch.sum(x, dim = 1).shape)
+

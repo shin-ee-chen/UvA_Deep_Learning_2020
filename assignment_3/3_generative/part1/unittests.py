@@ -191,11 +191,11 @@ class TestCNNEncoderDecoder(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    # suite = unittest.TestLoader().loadTestsFromTestCase(TestKLD)
-    # unittest.TextTestRunner(verbosity=2).run(suite)
-
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestReparameterization)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestKLD)
     unittest.TextTestRunner(verbosity=2).run(suite)
+
+    # suite = unittest.TestLoader().loadTestsFromTestCase(TestReparameterization)
+    # unittest.TextTestRunner(verbosity=2).run(suite)
 
     # suite = unittest.TestLoader().loadTestsFromTestCase(TestBPD)
     # unittest.TextTestRunner(verbosity=2).run(suite)

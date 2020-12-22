@@ -70,12 +70,19 @@ class VAE(nn.Module):
         """
 
         # Hint: implement the empty functions in utils.py
+        imgs = imgs.to(self.device)
+        mean, log_std = self.encoder(imgs)
+        z = sample_reparameterize(mean, torch.exp(log_std))
+        x_hat = self.decoder(z)
 
-        L_rec = None
-        L_reg = None
-        bpd = None
-        raise NotImplementedError
-        return L_rec, L_reg, bpd
+        #note: *_with_logits = sigmoid(x_hat) + binary_cross_entropy
+        # my reduction is none here because the input to bpd is [batch_size]
+        L_rec = nn.functional.binary_cross_entropy_with_logits(x_hat, imgs, reduction='none')
+        L_rec = torch.sum(L_rec.reshape(imgs.shape[0], -1),dim = 1)
+        L_reg = KLD(mean, log_std)
+
+        bpd = elbo_to_bpd(L_rec+L_reg, imgs.shape)
+        return torch.mean(L_rec), torch.mean(L_reg), torch.mean(bpd)
 
     @torch.no_grad()
     def sample(self, batch_size):
@@ -88,10 +95,10 @@ class VAE(nn.Module):
             x_mean - The sigmoid output of the decoder with continuous values
                      between 0 and 1 from which we obtain "x_samples"
         """
-
-        x_mean = None
-        x_samples = None
-        raise NotImplementedError
+        sample_z = torch.randn(batch_size, self.z_dim).to(self.device)
+        x_mean = torch.sigmoid(self.decoder(sample_z))
+        x_samples = torch.bernoulli(x_mean)
+        # raise NotImplementedError
         return x_samples, x_mean
 
     @property
@@ -118,7 +125,14 @@ def sample_and_save(model, epoch, summary_writer, batch_size=64):
     # - Use the torchvision function "make_grid" to create a grid of multiple images
     # - Use the torchvision function "save_image" to save an image grid to disk
 
-    raise NotImplementedError
+    log_dir = summary_writer.log_dir
+    x_samples, x_mean = model.sample(batch_size)
+    samples = make_grid(x_samples)
+    means = make_grid(x_mean)
+    save_image(samples, os.path.join(log_dir, f"samples_{epoch}.png"))
+    save_image(samples, os.path.join(log_dir, f"mean_{epoch}.png"))
+
+
 
 
 @torch.no_grad()
@@ -133,11 +147,22 @@ def test_vae(model, data_loader):
         average_rec_loss - Average reconstruction loss
         average_reg_loss - Average regularization loss
     """
+    average_bpd = 0
+    average_rec_loss = 0
+    average_reg_loss = 0
 
-    average_bpd = None
-    average_rec_loss = None
-    average_reg_loss = None
-    raise NotImplementedError
+    model.eval()
+    
+    for _, imgs in enumerate(data_loader):
+        L_rec, L_reg, bpd = model.forward(imgs[0])
+
+        average_bpd += bpd.item()
+        average_rec_loss += L_rec.item()
+        average_reg_loss += L_reg.item()
+
+    average_bpd /= len(data_loader)
+    average_rec_loss /= len(data_loader)
+    average_reg_loss /= len(data_loader)
     return average_bpd, average_rec_loss, average_reg_loss
 
 
@@ -153,11 +178,31 @@ def train_vae(model, train_loader, optimizer):
         average_rec_loss - Average reconstruction loss
         average_reg_loss - Average regularization loss
     """
+    average_bpd = 0
+    average_rec_loss = 0
+    average_reg_loss = 0
+    count = 0
 
-    average_bpd = None
-    average_rec_loss = None
-    average_reg_loss = None
-    raise NotImplementedError
+    model.train()
+    # print("data loader type:", type(train_loader))
+    # print(len(train_loader))
+    for _, imgs in enumerate(train_loader):
+        # train_imgs, val_imgs = imgs
+        optimizer.zero_grad()
+        L_rec, L_reg, bpd = model.forward(imgs[0])
+        bpd.backward()
+        optimizer.step()
+        average_bpd = bpd.item()
+        average_rec_loss += L_rec.item()
+        average_reg_loss += L_reg.item()
+        count+=1
+        # if count % 50 == 0:
+        #     print(f"loss = {bpd.item()}")
+
+    average_bpd /= len(train_loader)
+    average_rec_loss /= len(train_loader)
+    average_reg_loss /= len(train_loader)
+    # raise NotImplementedError
     return average_bpd, average_rec_loss, average_reg_loss
 
 
@@ -225,6 +270,7 @@ def main(args):
         val_iterator = (tqdm(val_loader, desc="Testing", leave=False)
                         if args.progress_bar else val_loader)
         epoch_val_bpd, val_rec_loss, val_reg_loss = test_vae(model, val_iterator)
+        print(f"epoch = {epoch}, loss = {epoch_val_bpd}")
 
         # Logging to TensorBoard
         summary_writer.add_scalars(

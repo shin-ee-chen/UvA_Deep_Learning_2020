@@ -65,9 +65,7 @@ class VAE(pl.LightningModule):
                   This is also the loss we train on. Shape: single scalar
         """
 
-        L_rec = None
-        L_reg = None
-        bpd = None
+        
         raise NotImplementedError
         return L_rec, L_reg, bpd
 

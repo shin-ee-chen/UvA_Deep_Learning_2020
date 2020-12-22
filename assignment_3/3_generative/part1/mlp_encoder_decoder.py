@@ -110,6 +110,7 @@ class MLPDecoder(nn.Module):
         """
 
         out = z
+        # print(f"z.shape {z.shape}")
         for layer in self.mlp_layers:
             out = layer(out)
         x = self.x_linear(out).view(-1, self.output_shape[0], 
