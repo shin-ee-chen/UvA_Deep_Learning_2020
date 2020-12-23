@@ -58,6 +58,8 @@ class GAN(nn.Module):
                                       dp_rate=dp_rate_gen)
         self.discriminator = DiscriminatorMLP(hidden_dims=hidden_dims_disc,
                                               dp_rate=dp_rate_disc)
+        self.true_label = None
+        self.fake_label = None
         
 
     @torch.no_grad()
@@ -72,7 +74,7 @@ class GAN(nn.Module):
         """
         
         z = torch.randn([batch_size, self.z_dim])
-        x = self.generator.forward(z)
+        x = self.generator(z)
         # raise NotImplementedError
         return x
 
@@ -90,15 +92,19 @@ class GAN(nn.Module):
         Outputs:
             x - Generated images of shape [B,interpolation_steps+2,C,H,W]
         """
-        z_a = torch.randn([batch_size, self.z_dim])
-        z_b = torch.randn([batch_size, self.z_dim])
-        x = self.generator.forward(z_a).unsqueeze(dim = 1)
+        z_a = torch.randn([batch_size, self.z_dim], device = self.device)
+        z_b = torch.randn([batch_size, self.z_dim], device = self.device)
+        # x = self.generator(z_a).unsqueeze(dim = 1)
+        # z_list = torch.linspace(, interpolation_steps, steps=interpolation_steps, device=self.device)
+        inters =torch.linspace(0, 1, steps=interpolation_steps+2, device=self.device) 
 
-        for i in range(1, interpolation_steps+1):
-            z = z_a + (z_b - z_a)* (i / interpolation_steps)
-            x_inter = self.generator.forward(z).unsqueeze(dim = 1)
-            torch.cat((x, x_inter), dim = 1)
-
+        z = []
+        for i in inters:
+            z.append(z_a * i)
+        
+        z = torch.stack(z, dim=0, device=self.device)
+        x = self.generator(z)
+        print(x.shape)
         return x
 
     def generator_step(self, x_real):
@@ -121,12 +127,11 @@ class GAN(nn.Module):
         # true_labels = torch.from_numpy(np.random.uniform(0.7, 1.2, 
         #               [x_real.shape[0],1])).to(self.device)
         criterion = nn.BCEWithLogitsLoss()
-        true_labels = torch.ones(x_real.shape[0], 1, device=self.device)
         z = torch.randn([x_real.shape[0], self.z_dim])
         G_fake = self.generator(z)
         # G_fake = self.sample(x_real.shape[0])
         D_fake = self.discriminator(G_fake)
-        loss = criterion(D_fake, true_labels)
+        loss = criterion(D_fake, self.true_labels)
         logging_dict = {"loss": loss}
         # raise NotImplementedError
 
@@ -155,16 +160,14 @@ class GAN(nn.Module):
         #               [x_real.shape[0],1])).to(self.device)
         # fake_labels = torch.from_numpy(np.random.uniform(0, 0.3, 
         #               [x_real.shape[0],1])).to(self.device)
-        true_labels = torch.ones(x_real.shape[0], 1, device=self.device)
-        fake_labels = torch.zeros(x_real.shape[0], 1, device=self.device)
         D_real = self.discriminator(x_real)
         
         z = torch.randn([x_real.shape[0], self.z_dim])
         G_fake = self.generator(z)
         D_fake = self.discriminator(G_fake)
         criterion = nn.BCEWithLogitsLoss()
-        loss_real = criterion(D_real, true_labels)
-        loss_fake = criterion(D_fake, fake_labels)
+        loss_real = criterion(D_real, self.true_labels)
+        loss_fake = criterion(D_fake, self.fake_labels)
         loss = loss_real + loss_fake
 
         logging_dict = {"loss": loss}
@@ -232,8 +235,13 @@ def interpolate_and_save(model, epoch, summary_writer, batch_size=4,
     x = model.interpolate(batch_size, interpolation_steps)
     mean = make_grid(torch.mean(x, dim = 1))
     # samples = make_grid()
-    summary_writer.add_image(f"interpolatation mean at epoch={epoch}", mean)
-    save_image(mean, os.path.join(log_dir, f"interpolatation_mean_{epoch}.png"))
+    # summary_writer.add_image(f"interpolatation mean at epoch={epoch}", mean)
+    # save_image(mean, os.path.join(log_dir, f"interpolatation_mean_{epoch}.png"))
+    
+    samples = make_grid(x.view(-1, 1, 28, 28))
+    summary_writer.add_image(f"interpolatation samples at epoch={epoch}",samples)
+    save_image(mean, os.path.join(log_dir, f"interpolatation_samples_{epoch}.png"),
+               nrow=interpolation_steps+2, normalize=True)
 
 
 def train_gan(model, train_loader,
@@ -264,59 +272,25 @@ def train_gan(model, train_loader,
         # (both loggers should get different dictionaries, the outputs 
         #  of the respective step functions)
 
+        model.true_labels = torch.ones(imgs.shape[0], 1, device=model.device)
+        model.fake_labels = torch.zeros(imgs.shape[0], 1, device=model.device)
+        
         # Generator update
         # raise NotImplementedError
-        # optimizer_gen.zero_grad()
-        # gen_loss, gen_logging_dict = model.generator_step(imgs[0])
-        # logger_gen.add_values(gen_logging_dict)
-        # gen_loss.backward()
-        # optimizer_gen.step()
-
-        # # Discriminator update
-        # # raise NotImplementedError
-        # optimizer_disc.zero_grad()
-        # disc_loss, disc_logging_dict = model.discriminator_step(imgs[0])
-        # logger_disc.add_values(disc_logging_dict)
-        # disc_loss.backward()
-        # optimizer_disc.step()
-
-
-        real_labels = torch.zeros(imgs.shape[0], 1).to(model.device)
-        fake_labels = torch.ones(imgs.shape[0], 1).to(model.device)
-        
-        # fake_imgs = model.sample(args.batch_size)
-        z = torch.randn((imgs.shape[0], args.z_dim)).to(model.device)
-        fake_imgs = generator(z)
-        
-        # Discriminator update
-        # optimizer_disc.zero_grad()
-        # dloss ,_ = model.discriminator_step(imgs, real_labels, fake_labels, fake_imgs, model.criterion)
-        # dloss.backward()
-        # optimizer_disc.step()
-        # print("Dloss: ", dloss.item())
-
-        optimizer_disc.zero_grad()
-        d_real = discriminator(imgs)
-        d_real_loss = criterion(d_real, real_labels)
-        d_fake = discriminator(fake_imgs)
-        d_fake_loss = criterion(d_fake, fake_labels)
-        dloss = d_real_loss + d_fake_loss
-        dloss.backward(retain_graph=True)
-        optimizer_disc.step()
-        # print("Dloss: ", dloss.item())
-
-        # Generator update
-        # optimizer_gen.zero_grad()
-        # gloss, _ = model.generator_step(real_labels, fake_imgs, model.criterion)
-        # gloss.backward()
-        # optimizer_gen.step()
-        # print("Gloss: ", gloss.item())
-
         optimizer_gen.zero_grad()
-        d_fake = discriminator(fake_imgs)
-        gloss = criterion(d_fake, real_labels)
-        gloss.backward()
+        gen_loss, gen_logging_dict = model.generator_step(imgs)
+        logger_gen.add_values(gen_logging_dict)
+        gen_loss.backward()
         optimizer_gen.step()
+
+        # Discriminator update
+        # raise NotImplementedError
+        optimizer_disc.zero_grad()
+        disc_loss, disc_logging_dict = model.discriminator_step(imgs)
+        logger_disc.add_values(disc_logging_dict)
+        disc_loss.backward()
+        optimizer_disc.step()
+       
 
 
 def seed_everything(seed):
