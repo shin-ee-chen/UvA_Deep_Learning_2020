@@ -89,9 +89,15 @@ class GAN(nn.Module):
         Outputs:
             x - Generated images of shape [B,interpolation_steps+2,C,H,W]
         """
+        z_a = torch.randn([batch_size, self.z_dim])
+        z_b = torch.randn([batch_size, self.z_dim])
+        x = self.generator.forward(z_a).unsqueeze(dim = 1)
 
-        x = None
-        raise NotImplementedError
+        for i in range(1, interpolation_steps+1):
+            z = z_a + (z_b - z_a)* (i / interpolation_steps)
+            x_inter = self.generator.forward(z).unsqueeze(dim = 1)
+            torch.cat((x, x_inter), dim = 1)
+
         return x
 
     def generator_step(self, x_real):
@@ -113,7 +119,9 @@ class GAN(nn.Module):
         # label smoothing
         true_labels = torch.from_numpy(np.random.uniform(0.7, 1.2, 
                       [x_real.shape[0],1])).to(self.device)
-        G_fake = self.sample(x_real.shape[0])
+        z = torch.randn([x_real.shape[0], self.z_dim])
+        G_fake = self.generator.forward(z)
+        # G_fake = self.sample(x_real.shape[0])
         D_fake = self.discriminator(G_fake)
         loss = nn.functional.binary_cross_entropy_with_logits(D_fake, true_labels)
         logging_dict = {"loss": loss}
@@ -145,7 +153,11 @@ class GAN(nn.Module):
         fake_labels = torch.from_numpy(np.random.uniform(0, 0.3, 
                       [x_real.shape[0],1])).to(self.device)
         D_real = self.discriminator(x_real)
-        D_fake = self.discriminator(self.sample(x_real.shape[0]))
+        
+        z = torch.randn([x_real.shape[0], self.z_dim])
+        G_fake = self.generator.forward(z)
+        D_fake = self.discriminator(G_fake)
+        
         loss_real = nn.functional.binary_cross_entropy_with_logits(D_real, true_labels)
         loss_fake = nn.functional.binary_cross_entropy_with_logits(D_fake, fake_labels)
         loss = (loss_real + loss_fake) / 2
@@ -211,8 +223,12 @@ def interpolate_and_save(model, epoch, summary_writer, batch_size=64,
     
     # You also have to implement this function in a later question of the assignemnt. 
     # By default it is skipped to allow you to test your other code so far. 
-    print("WARNING: Interpolation function has not been implemented yet.")
-    pass
+    log_dir = summary_writer.log_dir
+    x = model.interpolate(batch_size, interpolation_steps)
+    mean = make_grid(torch.mean(x, dim = 1))
+    # samples = make_grid()
+    summary_writer.add_image(f"interpolatation mean at epoch={epoch}", mean)
+    save_image(mean, os.path.join(log_dir, f"interpolatation_mean_{epoch}.png"))
 
 
 def train_gan(model, train_loader,
