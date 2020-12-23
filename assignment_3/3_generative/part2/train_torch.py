@@ -102,7 +102,7 @@ class GAN(nn.Module):
         for i in inters:
             z.append(z_a * i)
         
-        z = torch.stack(z, dim=0, device=self.device)
+        z = torch.stack(z, dim=0)
         x = self.generator(z)
         print(x.shape)
         return x
@@ -203,9 +203,9 @@ def generate_and_save(model, epoch, summary_writer, batch_size=64):
     # raise NotImplementedError
     img_samples = model.sample(batch_size)
     log_dir = summary_writer.log_dir
-    samples = make_grid(img_samples)
+    samples = make_grid(img_samples, normalize=True)
     summary_writer.add_image(f"samples at epoch={epoch}", samples)
-    save_image(samples, os.path.join(log_dir, f"samples_{epoch}.png"), normalize=True)
+    save_image(samples, os.path.join(log_dir, f"samples_{epoch}.png"))
 
 
 
@@ -233,15 +233,14 @@ def interpolate_and_save(model, epoch, summary_writer, batch_size=4,
     # By default it is skipped to allow you to test your other code so far. 
     log_dir = summary_writer.log_dir
     x = model.interpolate(batch_size, interpolation_steps)
-    mean = make_grid(torch.mean(x, dim = 1))
+    # mean = make_grid(torch.mean(x, dim = 1))
     # samples = make_grid()
     # summary_writer.add_image(f"interpolatation mean at epoch={epoch}", mean)
     # save_image(mean, os.path.join(log_dir, f"interpolatation_mean_{epoch}.png"))
     
-    samples = make_grid(x.view(-1, 1, 28, 28))
+    samples = make_grid(x, nrow=interpolation_steps+2, normalize=True)
     summary_writer.add_image(f"interpolatation samples at epoch={epoch}",samples)
-    save_image(mean, os.path.join(log_dir, f"interpolatation_samples_{epoch}.png"),
-               nrow=interpolation_steps+2, normalize=True)
+    save_image(samples, os.path.join(log_dir, f"interpolatation_samples_{epoch}.png"))
 
 
 def train_gan(model, train_loader,
@@ -350,6 +349,7 @@ def main(args):
 
     # Initial generation before training
     generate_and_save(model, 0, summary_writer)
+    interpolate_and_save(model, 0, summary_writer)
 
     # Training loop
     print(f"Using device {device}")
