@@ -90,34 +90,13 @@ def visualize_manifold(decoder, grid_size=20):
     # - You can use torchvision's function "make_grid" to combine the grid_size**2 images into a grid
     # - Remember to apply a sigmoid after the decoder
 
-    # img_grid = None
-    # raise NotImplementedError
-    # z = torch.zeros(grid_size)
-    # for i in range(grid_size):
-    #     z[i] = norm.ppf((i+0.5) / (grid_size+1))
-    # mean = torch.sigmoid(decoder(z))
-    # https://www.quora.com/How-can-I-draw-a-manifold-from-a-variational-autoencoder-in-Keras
-    
-    # z = torch.zeros([grid_size, 2]) #not sure the dimension is right, z should be[Batch, 2]
     z = []
     for i in range(grid_size):
         for j in range(grid_size):
             z.append(norm.ppf((j+0.5) / (grid_size+1)))
             z.append(norm.ppf((i+0.5) / (grid_size+1)))
-    z = torch.tensor(z).reshape(-1,2)
-    mean = torch.sigmoid(decoder(z))
+    z = torch.Tensor(z).reshape(-1,2)
+    mean = torch.sigmoid((decoder(z)))
 
-    img_grid = make_grid(mean)
+    img_grid = make_grid(mean, nrow=grid_size)
     return img_grid
-
-if __name__ == '__main__':
-    # x = torch.randn(3, 2, 1, 4)
-    # print(x)
-    # x = x.reshape(3,-1)
-    # print(x.reshape(3,-1))
-    # print(torch.sum(x, dim = 1).shape)
-    # x = [1,1,2,2,3,3]
-    # visualize_manifold(10, grid_size=3)
-    x = torch.tensor([1,2,3])
-    print(torch.meshgrid(x, 2 * x))
-    # print(torch.tensor(x).reshape(3,2))
