@@ -107,7 +107,7 @@ def visualize_manifold(decoder, grid_size=20):
     z = torch.Tensor(z).reshape(-1,2)
     mean = torch.sigmoid(torch.Tensor(decoder(z)))
 
-    img_grid = make_grid(mean)
+    img_grid = make_grid(mean, nrow=grid_size)
     return img_grid
 
 if __name__ == '__main__':
