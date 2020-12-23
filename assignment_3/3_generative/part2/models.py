@@ -44,8 +44,8 @@ class GeneratorMLP(nn.Module):
         input_size = z_dim
         for hidden_dim in hidden_dims:
             self.mlp_layers.append(nn.Linear(input_size, hidden_dim))
-            self.mlp_layers.append(nn.LeakyReLU(0.2))
             self.mlp_layers.append(nn.Dropout(p = dp_rate))
+            self.mlp_layers.append(nn.LeakyReLU(0.2))
             input_size = hidden_dim
         
         self.output_layer = nn.Sequential(
@@ -99,8 +99,9 @@ class DiscriminatorMLP(nn.Module):
         input_size = input_dims
         for hidden_dim in hidden_dims:
             self.mlp_layers.append(nn.Linear(input_size, hidden_dim))
-            self.mlp_layers.append(nn.LeakyReLU(0.2))
             self.mlp_layers.append(nn.Dropout(p = dp_rate))
+            self.mlp_layers.append(nn.LeakyReLU(0.2))
+            
             input_size = hidden_dim
         
         self.output_layer = nn.Linear(input_size, 1)

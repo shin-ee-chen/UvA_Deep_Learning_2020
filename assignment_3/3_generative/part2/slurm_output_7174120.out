@@ -1,0 +1,20 @@
+WARNING: $PATH does not agree with $PATH_modshare counter. The following directories' usage counters were adjusted to match. Note that this may mean that module unloading may not work correctly.
+ /opt/slurm/bin /hpc/eb/compilerwrappers/linkers /sw/arch/Debian10/EB_production/2020/software/Miniconda3/4.7.12.1 /sw/arch/Debian10/EB_production/2020/software/Miniconda3/4.7.12.1/bin /opt/slurm/sbin /hpc/eb/compilerwrappers/compilers
+/var/spool/slurm/slurmd/job7174120/slurm_script: line 26: activate: No such file or directory
+Using device cuda:0
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/home/lgpu0399/.conda/envs/dl2020/lib/python3.7/threading.py", line 926, in _bootstrap_inner
+    self.run()
+  File "/home/lgpu0399/.conda/envs/dl2020/lib/python3.7/site-packages/tensorboard/summary/writer/event_file_writer.py", line 238, in run
+    self._record_writer.write(data)
+  File "/home/lgpu0399/.conda/envs/dl2020/lib/python3.7/site-packages/tensorboard/summary/writer/record_writer.py", line 40, in write
+    self._writer.write(header + header_crc + data + footer_crc)
+  File "/home/lgpu0399/.conda/envs/dl2020/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/io/gfile.py", line 535, in write
+    self.fs.append(self.filename, file_content, self.binary_mode)
+  File "/home/lgpu0399/.conda/envs/dl2020/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/io/gfile.py", line 158, in append
+    self._write(filename, file_content, "ab" if binary_mode else "a")
+  File "/home/lgpu0399/.conda/envs/dl2020/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/io/gfile.py", line 162, in _write
+    with io.open(filename, mode, encoding=encoding) as f:
+FileNotFoundError: [Errno 2] No such file or directory: b'GAN_logs/2020_12_23_17_08_28/events.out.tfevents.1608739711.r31n1.lisa.surfsara.nl.20626.0'
+
