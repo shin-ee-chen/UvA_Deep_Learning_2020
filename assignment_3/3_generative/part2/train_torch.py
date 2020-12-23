@@ -98,12 +98,12 @@ class GAN(nn.Module):
         # z_list = torch.linspace(, interpolation_steps, steps=interpolation_steps, device=self.device)
         inters =torch.linspace(0, 1, steps=interpolation_steps+2, device=self.device) 
 
-        z = []
+        x = []
         for i in inters:
-            z.append(z_a * i)
+            gen_x = self.generator(z_a * i)
+            x.append(gen_x)
         
-        z = torch.stack(z, dim=0)
-        x = self.generator(z)
+        x = torch.stack(x, dim=1)
         print(x.shape)
         return x
 
@@ -238,7 +238,7 @@ def interpolate_and_save(model, epoch, summary_writer, batch_size=4,
     # summary_writer.add_image(f"interpolatation mean at epoch={epoch}", mean)
     # save_image(mean, os.path.join(log_dir, f"interpolatation_mean_{epoch}.png"))
     
-    samples = make_grid(x, nrow=interpolation_steps+2, normalize=True)
+    samples = make_grid(x.view(-1, 1, 28, 28), nrow=interpolation_steps+2, normalize=True)
     summary_writer.add_image(f"interpolatation samples at epoch={epoch}",samples)
     save_image(samples, os.path.join(log_dir, f"interpolatation_samples_{epoch}.png"))
 
