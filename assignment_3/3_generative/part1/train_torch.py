@@ -77,7 +77,7 @@ class VAE(nn.Module):
         
         #note: *_with_logits = sigmoid(x_hat) + binary_cross_entropy
         # my reduction is none here because the input to bpd is [batch_size]
-        L_rec = nn.functional.binary_cross_entropy_with_logits(x_hat, imgs, reduction='none')
+        L_rec = F.binary_cross_entropy_with_logits(x_hat, imgs, reduction='none')
         L_rec = torch.sum(L_rec.reshape(imgs.shape[0], -1),dim = 1)
         L_reg = KLD(mean, log_std)
 
